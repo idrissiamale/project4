@@ -1,0 +1,13 @@
+/Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/App.java
+/Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/service/FareCalculatorService.java
+/Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/dao/ParkingSpotDAO.java
+/Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/service/ParkingService.java
+/Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/util/InputReaderUtil.java
+/Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/config/DataBaseConfig.java
+/Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/model/Ticket.java
+/Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/service/InteractiveShell.java
+/Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/constants/Fare.java
+/Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/dao/TicketDAO.java
+/Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/constants/ParkingType.java
+/Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/model/ParkingSpot.java
+/Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/constants/DBConstants.java
