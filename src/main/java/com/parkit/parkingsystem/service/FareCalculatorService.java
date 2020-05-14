@@ -40,6 +40,9 @@ public class FareCalculatorService {
         }
 
 
+        if (duration < 0.5) {
+            ticket.setPrice(duration * Fare.UNDER_THIRTY_MINUTES);
+        }
 
     }
 }
