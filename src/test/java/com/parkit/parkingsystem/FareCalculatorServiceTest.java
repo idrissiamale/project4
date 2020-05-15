@@ -126,7 +126,7 @@ public class FareCalculatorServiceTest {
     }
 
     @Test
-    public  void calculateFareWithLessThanThirtyMinutesParkingTime() {
+    public  void calculateFareCarWithLessThanThirtyMinutesParkingTime() {
         Date inTime = new Date();
         inTime.setTime( System.currentTimeMillis() - ( 15 * 60 * 1000) );
         Date outTime = new Date();
@@ -139,5 +139,32 @@ public class FareCalculatorServiceTest {
         assertEquals( (0.25 * Fare.UNDER_THIRTY_MINUTES) , ticket.getPrice());
     }
 
+    @Test
+    public  void calculateFareBikeWithLessThanThirtyMinutesParkingTime() {
+        Date inTime = new Date();
+        inTime.setTime( System.currentTimeMillis() - ( 15 * 60 * 1000) );
+        Date outTime = new Date();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
 
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        fareCalculatorService.calculateFare(ticket);
+        assertEquals( (0.25 * Fare.UNDER_THIRTY_MINUTES) , ticket.getPrice());
+    }
+
+    @Test
+    public void calculateFareCarForArecurringUser() {
+        Date inTime = new Date();
+        inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
+        Date outTime = new Date();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setVehicleRegNumber("ABCDEF");
+        ticket.setParkingSpot(parkingSpot);
+        fareCalculatorService.calculateFare(ticket);
+        assertEquals(Fare.CAR_RATE_PER_HOUR, ticket.getPrice());
+    }
 }
