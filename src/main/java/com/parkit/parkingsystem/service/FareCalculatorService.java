@@ -13,7 +13,8 @@ public class FareCalculatorService {
 
         double inTime = ticket.getInTime().getTime();
         double outTime = ticket.getOutTime().getTime();
-        String  vehicleRegNumberRecorded = ticket.getVehicleRegNumber();
+
+
 
 
 

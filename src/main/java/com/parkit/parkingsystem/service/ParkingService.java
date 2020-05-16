@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class ParkingService {
 
@@ -59,6 +60,9 @@ public class ParkingService {
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
 
+
+
+
     public ParkingSpot getNextParkingNumberIfAvailable(){
         int parkingNumber=0;
         ParkingSpot parkingSpot = null;
@@ -77,6 +81,7 @@ public class ParkingService {
         }
         return parkingSpot;
     }
+
 
     private ParkingType getVehichleType(){
         System.out.println("Please select vehicle type from menu");
