@@ -33,6 +33,7 @@ public class ParkingService {
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot !=null && parkingSpot.getId() > 0){
                 String vehicleRegNumber = getVehichleRegNumber();
+                checkIfVehicleRegNumberExists();
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
@@ -60,8 +61,24 @@ public class ParkingService {
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
 
+    public boolean isRecorded(String vehicleRegNumber) {
+        if(vehicleRegNumber != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
+    public Ticket checkIfVehicleRegNumberExists () throws Exception {
+        String vehicleRegNumber = inputReaderUtil.readVehicleRegistrationNumber();
+        Ticket ticket = ticketDAO.getTicket(vehicleRegNumber);
+        if (isRecorded(vehicleRegNumber)) {
+            System.out.println("Welcome back ! As a recurring user of our parking lot, you'll benefit of 5% discount.");
+        }
+        return ticket;
+    }
 
+     
 
     public ParkingSpot getNextParkingNumberIfAvailable(){
         int parkingNumber=0;
