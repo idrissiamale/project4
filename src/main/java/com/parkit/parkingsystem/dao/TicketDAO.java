@@ -8,10 +8,7 @@ import com.parkit.parkingsystem.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.sql.*;
 
 public class TicketDAO {
 
@@ -85,5 +82,26 @@ public class TicketDAO {
             dataBaseConfig.closeConnection(con);
         }
         return false;
+    }
+
+    public int countVehicleRegNumber(String vehicleRegNumber) {
+        Connection con = null;
+        int count = 0;
+        try {
+            con = dataBaseConfig.getConnection();
+            PreparedStatement ps = con.prepareStatement(DBConstants.GET_TICKET);
+            String query = "SELECT COUNT(*) from ticket";
+            ResultSet rs = ps.executeQuery(query);
+            while (rs.next()) {
+                count = rs.getInt(3);
+            }
+            dataBaseConfig.closeResultSet(rs);
+            dataBaseConfig.closePreparedStatement(ps);
+        } catch(Exception ex) {
+            logger.error("Error counting vehicle registration numbers", ex);
+        } finally {
+            dataBaseConfig.closeConnection(con);
+            return count;
+        }
     }
 }

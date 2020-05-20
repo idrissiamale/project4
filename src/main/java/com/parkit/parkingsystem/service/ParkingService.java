@@ -32,15 +32,7 @@ public class ParkingService {
         try{
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot !=null && parkingSpot.getId() > 0){
-                //1. When a user enters the parking garage, they are asked for their license plate number = getVehicleRegNumber() method.
-                //2. When entering it, the system checks whether the user has entered it previously = isRecorded() method (en bas).
-                //3. If this is the case, then the system displays a message saying "Welcome back! As a recurring user of our parking lot, you'll benefit from a 5% discount."
-                //   and then proceeds normally.
                 String vehicleRegNumber = getVehichleRegNumber();
-                ticketDAO.getTicket(vehicleRegNumber);
-                if (isRecorded(vehicleRegNumber)) {
-                    System.out.println("Welcome back ! As a recurring user of our parking lot, you'll benefit of 5% discount.");
-                }
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
@@ -67,15 +59,6 @@ public class ParkingService {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
-
-
-    public boolean isRecorded(String vehicleRegNumber) {
-        if(vehicleRegNumber != null) {
-            return true;
-        }
-        return false;
-    }
-
 
 
     public ParkingSpot getNextParkingNumberIfAvailable(){
