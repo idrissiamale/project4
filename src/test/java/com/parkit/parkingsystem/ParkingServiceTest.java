@@ -30,6 +30,9 @@ public class ParkingServiceTest {
     @Mock
     private static TicketDAO ticketDAO;
 
+
+
+
     @BeforeEach
     private void setUpPerTest() {
         try {
@@ -50,6 +53,13 @@ public class ParkingServiceTest {
             e.printStackTrace();
             throw  new RuntimeException("Failed to set up test mock objects");
         }
+    }
+
+    @Test
+    public void testCountVehicleRegNumber () throws Exception {
+
+
+        parkingService.processIncomingVehicle();
     }
 
     @Test

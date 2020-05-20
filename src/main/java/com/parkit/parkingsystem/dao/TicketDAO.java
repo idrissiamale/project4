@@ -89,19 +89,18 @@ public class TicketDAO {
         int count = 0;
         try {
             con = dataBaseConfig.getConnection();
-            PreparedStatement ps = con.prepareStatement(DBConstants.GET_TICKET);
-            String query = "SELECT COUNT(*) from ticket";
-            ResultSet rs = ps.executeQuery(query);
-            while (rs.next()) {
-                count = rs.getInt(3);
+            PreparedStatement ps = con.prepareStatement("SELECT COUNT(*) FROM ticket WHERE VEHICLE_REG_NUMBER=?");
+            ps.setString(1, vehicleRegNumber);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                count = rs.getInt(1);
             }
-            dataBaseConfig.closeResultSet(rs);
-            dataBaseConfig.closePreparedStatement(ps);
+            return count;
         } catch(Exception ex) {
             logger.error("Error counting vehicle registration numbers", ex);
         } finally {
             dataBaseConfig.closeConnection(con);
-            return count;
         }
+        return 0;
     }
 }
