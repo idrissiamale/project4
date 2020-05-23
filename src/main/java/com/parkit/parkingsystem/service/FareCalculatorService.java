@@ -5,6 +5,7 @@ import com.parkit.parkingsystem.helpers.HelperClass;
 import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
+    private static HelperClass helper = new HelperClass();
 
     public void calculateFare(Ticket ticket) {
         if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))){
@@ -22,7 +23,7 @@ public class FareCalculatorService {
 
 
         //TODO: Some tests are failing here. Need to check if this logic is correct
-        HelperClass helper = new HelperClass();
+
         double durationInMinutes = helper.getMinutes(outTime, inTime); // j'ai transformé les milliseconds en minutes
         double duration = helper.getHours (durationInMinutes); // j'ai divisé les minutes par 60 pour obtenir des heures. Ainsi pour convertir 45mn en heure
                                             // je fais 45/60 ce qui me donne 0,75. Mais je ne comprends alors que 0,75*1,5€ = 1,125€ j'obtiens 0€ sur les tests.
