@@ -40,9 +40,8 @@ public class ParkingServiceTest {
             Ticket ticket = new Ticket();
             ticket.setParkingSpot(parkingSpot);
             ticket.setVehicleRegNumber("ABCDEF");
-            ticket.setPrice(0);
             ticket.setInTime(inTime);
-            ticket.setOutTime(null);
+
 
             when(inputReaderUtil.readSelection()).thenReturn(1);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
@@ -55,6 +54,7 @@ public class ParkingServiceTest {
         }
         parkingService.processIncomingVehicle();
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
+        verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
 
     }
 
