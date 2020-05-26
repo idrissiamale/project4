@@ -55,6 +55,17 @@ public class ParkingServiceTest {
     }
 
     @Test
+    public void testOfInexistantVehicleRegNumber() {
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        when(ticketDAO.countVehicleRegNumber("FGHIJK")).thenReturn(0);
+
+        int count = parkingService.countTheNumberOfVisits("FGHIJK");
+
+        verify(ticketDAO).countVehicleRegNumber("FGHIJK");
+        assertEquals(0, count);
+    }
+
+    @Test
     public void processIncomingVehicleTest() {
         try {
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
