@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Date;
 
@@ -30,6 +31,28 @@ public class ParkingServiceTest {
     @Mock
     private static TicketDAO ticketDAO;
 
+
+    @Test
+    public void testOfABCDEFvehicleRegNumber() {
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
+
+        int count = parkingService.countTheNumberOfVisits("ABCDEF");
+
+        verify(ticketDAO).countVehicleRegNumber("ABCDEF");
+        assertEquals(9, count);
+    }
+
+    @Test
+    public void testOfTOTOvehicleRegNumber() {
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        when(ticketDAO.countVehicleRegNumber("toto")).thenReturn(1);
+
+        int count = parkingService.countTheNumberOfVisits("toto");
+
+        verify(ticketDAO).countVehicleRegNumber("toto");
+        assertEquals(1, count);
+    }
 
     @Test
     public void processIncomingVehicleTest() {
@@ -55,7 +78,6 @@ public class ParkingServiceTest {
         parkingService.processIncomingVehicle();
         verify(parkingSpotDAO, Mockito.times(1)).updateParking(any(ParkingSpot.class));
         verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
-
     }
 
 

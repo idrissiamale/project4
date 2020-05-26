@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
-import java.util.Objects;
+
 
 public class ParkingService {
 
@@ -33,8 +33,7 @@ public class ParkingService {
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot !=null && parkingSpot.getId() > 0){
                 String vehicleRegNumber = getVehichleRegNumber();
-                int nombreVisit = ticketDAO.countVehicleRegNumber(vehicleRegNumber);
-                System.out.println("Welcome" + nombreVisit);
+                checkIfTheUserIsARecurrentUser();
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
@@ -62,6 +61,16 @@ public class ParkingService {
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
 
+    public int countTheNumberOfVisits(String vehicleRegNumber) {
+        int numberOfVisits = ticketDAO.countVehicleRegNumber(vehicleRegNumber);
+        return numberOfVisits;
+    }
+
+    public void checkIfTheUserIsARecurrentUser () throws Exception {
+        if(countTheNumberOfVisits(getVehichleRegNumber()) > 0 ) {
+            System.out.println("Welcome back !");
+        }
+    }
 
     public ParkingSpot getNextParkingNumberIfAvailable(){
         int parkingNumber=0;

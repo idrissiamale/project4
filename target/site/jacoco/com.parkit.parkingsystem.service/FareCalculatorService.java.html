@@ -5,14 +5,17 @@ import com.parkit.parkingsystem.helpers.HelperClass;
 import com.parkit.parkingsystem.model.Ticket;
 
 <span class="fc" id="L7">public class FareCalculatorService {</span>
+<span class="fc" id="L8">    private static HelperClass helper = new HelperClass();</span>
 
     public void calculateFare(Ticket ticket) {
-<span class="pc bpc" id="L10" title="1 of 4 branches missed.">        if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))){</span>
-<span class="fc" id="L11">            throw new IllegalArgumentException(&quot;Out time provided is incorrect:&quot;+ticket.getOutTime().toString());</span>
+<span class="pc bpc" id="L11" title="1 of 4 branches missed.">        if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))){</span>
+<span class="fc" id="L12">            throw new IllegalArgumentException(&quot;Out time provided is incorrect:&quot;+ticket.getOutTime().toString());</span>
         }
 
-<span class="fc" id="L14">        double inTime = ticket.getInTime().getTime();</span>
-<span class="fc" id="L15">        double outTime = ticket.getOutTime().getTime();</span>
+<span class="fc" id="L15">        double inTime = ticket.getInTime().getTime();</span>
+<span class="fc" id="L16">        double outTime = ticket.getOutTime().getTime();</span>
+
+
 
 
 
@@ -20,27 +23,30 @@ import com.parkit.parkingsystem.model.Ticket;
 
 
         //TODO: Some tests are failing here. Need to check if this logic is correct
-<span class="fc" id="L23">        HelperClass helper = new HelperClass();</span>
-<span class="fc" id="L24">        double durationInMinutes = helper.getMinutes(outTime, inTime); // j'ai transformé les milliseconds en minutes</span>
-<span class="fc" id="L25">        double duration = helper.getHours (durationInMinutes); // j'ai divisé les minutes par 60 pour obtenir des heures. Ainsi pour convertir 45mn en heure</span>
+
+<span class="fc" id="L27">        double durationInMinutes = helper.getMinutes(outTime, inTime); // j'ai transformé les milliseconds en minutes</span>
+<span class="fc" id="L28">        double duration = helper.getHours (durationInMinutes); // j'ai divisé les minutes par 60 pour obtenir des heures. Ainsi pour convertir 45mn en heure</span>
                                             // je fais 45/60 ce qui me donne 0,75. Mais je ne comprends alors que 0,75*1,5€ = 1,125€ j'obtiens 0€ sur les tests.
 
 
 
-<span class="pc bpc" id="L30" title="1 of 3 branches missed.">        switch (ticket.getParkingSpot().getParkingType()){</span>
+<span class="pc bpc" id="L33" title="1 of 3 branches missed.">        switch (ticket.getParkingSpot().getParkingType()){</span>
             case CAR: {
-<span class="fc" id="L32">                ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);</span>
-<span class="fc" id="L33">                break;</span>
+<span class="fc" id="L35">                ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR);</span>
+<span class="fc" id="L36">                break;</span>
             }
             case BIKE: {
-<span class="fc" id="L36">                ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);</span>
-<span class="fc" id="L37">                break;</span>
+<span class="fc" id="L39">                ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR);</span>
+<span class="fc" id="L40">                break;</span>
             }
-<span class="nc" id="L39">            default: throw new IllegalArgumentException(&quot;Unkown Parking Type&quot;);</span>
+<span class="nc" id="L42">            default: throw new IllegalArgumentException(&quot;Unkown Parking Type&quot;);</span>
         }
 
 
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (duration &lt; 0.5) {</span>
+<span class="fc" id="L47">            ticket.setPrice(duration * Fare.UNDER_THIRTY_MINUTES);</span>
+        }
 
-<span class="fc" id="L44">    }</span>
+<span class="fc" id="L50">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

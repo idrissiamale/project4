@@ -1,5 +1,6 @@
 /Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/App.java
 /Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/service/FareCalculatorService.java
+/Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/helpers/HelperClass.java
 /Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/dao/ParkingSpotDAO.java
 /Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/service/ParkingService.java
 /Users/idrissi/Workspace/parkingsystem/src/main/java/com/parkit/parkingsystem/util/InputReaderUtil.java
