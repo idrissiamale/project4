@@ -33,7 +33,7 @@ public class ParkingService {
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if(parkingSpot !=null && parkingSpot.getId() > 0){
                 String vehicleRegNumber = getVehichleRegNumber();
-                checkIfTheUserIsARecurrentUser();
+                countTheNumberOfVisits(vehicleRegNumber);
                 parkingSpot.setAvailable(false);
                 parkingSpotDAO.updateParking(parkingSpot);//allot this parking space and mark it's availability as false
 
@@ -63,14 +63,13 @@ public class ParkingService {
 
     public int countTheNumberOfVisits(String vehicleRegNumber) {
         int numberOfVisits = ticketDAO.countVehicleRegNumber(vehicleRegNumber);
+        if(numberOfVisits > 0) {
+            System.out.println("Welcome back !");
+        }
         return numberOfVisits;
     }
 
-    public void checkIfTheUserIsARecurrentUser () throws Exception {
-        if(countTheNumberOfVisits(getVehichleRegNumber()) > 0 ) {
-            System.out.println("Welcome back !");
-        }
-    }
+
 
     public ParkingSpot getNextParkingNumberIfAvailable(){
         int parkingNumber=0;
