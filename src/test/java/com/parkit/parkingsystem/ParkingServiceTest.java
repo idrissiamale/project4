@@ -90,7 +90,7 @@ public class ParkingServiceTest {
         assertEquals(null , available);
     }
 
-
+    
     @Test
     public void processIncomingVehicleTest() {
         try {
