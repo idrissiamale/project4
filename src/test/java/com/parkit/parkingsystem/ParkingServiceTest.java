@@ -66,6 +66,32 @@ public class ParkingServiceTest {
     }
 
     @Test
+    public void testGetNextAvailableSLotMethod() {
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
+
+        ParkingSpot available = parkingService.getNextParkingNumberIfAvailable();
+
+        verify(parkingSpotDAO).getNextAvailableSlot(any(ParkingType.class));
+        assertEquals(parkingSpot, available);
+    }
+
+    @Test
+    public void checkThatTheParkingSLotIsFull() {
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(0);
+
+        ParkingSpot available = parkingService.getNextParkingNumberIfAvailable();
+
+        verify(parkingSpotDAO).getNextAvailableSlot(any(ParkingType.class));
+        assertEquals(null, available);
+    }
+
+    @Test
     public void processIncomingVehicleTest() {
         try {
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
