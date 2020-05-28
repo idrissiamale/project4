@@ -91,7 +91,7 @@ public class ParkingServiceTest {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
         when(inputReaderUtil.readSelection()).thenReturn(3).thenThrow(new IllegalArgumentException());
-        
+
         assertThrows(IllegalArgumentException.class, () ->parkingService.getVehichleType());
     }
 

@@ -91,12 +91,12 @@ public class ParkingService {
     }
 
 
-    private ParkingType getVehichleType(){
+    public ParkingType getVehichleType(){
 <span class="fc" id="L95">        System.out.println(&quot;Please select vehicle type from menu&quot;);</span>
 <span class="fc" id="L96">        System.out.println(&quot;1 CAR&quot;);</span>
 <span class="fc" id="L97">        System.out.println(&quot;2 BIKE&quot;);</span>
 <span class="fc" id="L98">        int input = inputReaderUtil.readSelection();</span>
-<span class="pc bpc" id="L99" title="1 of 3 branches missed.">        switch(input){</span>
+<span class="fc bfc" id="L99" title="All 3 branches covered.">        switch(input){</span>
             case 1: {
 <span class="fc" id="L101">                return ParkingType.CAR;</span>
             }
@@ -104,8 +104,8 @@ public class ParkingService {
 <span class="fc" id="L104">                return ParkingType.BIKE;</span>
             }
             default: {
-<span class="nc" id="L107">                System.out.println(&quot;Incorrect input provided&quot;);</span>
-<span class="nc" id="L108">                throw new IllegalArgumentException(&quot;Entered input is invalid&quot;);</span>
+<span class="fc" id="L107">                System.out.println(&quot;Incorrect input provided&quot;);</span>
+<span class="fc" id="L108">                throw new IllegalArgumentException(&quot;Entered input is invalid&quot;);</span>
             }
         }
     }
