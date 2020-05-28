@@ -13,6 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.omg.CORBA.DynAnyPackage.Invalid;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Date;
@@ -64,6 +66,37 @@ public class ParkingServiceTest {
         assertEquals(0, count);
     }
 
+    @Test
+    public void getVehiculeTypeCar(){
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+
+        ParkingType parkingType = parkingService.getVehichleType();
+        assertEquals(parkingType.CAR, parkingType);
+    }
+
+    @Test
+    public void getVehiculeTypeBike(){
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+        when(inputReaderUtil.readSelection()).thenReturn(2);
+
+        ParkingType parkingType = parkingService.getVehichleType();
+        assertEquals(parkingType.BIKE, parkingType);
+    }
+
+    @Test
+    public void getVehiculeTypeError(){
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+        when(inputReaderUtil.readSelection()).thenReturn(3).thenThrow(new IllegalArgumentException());
+        
+        assertThrows(IllegalArgumentException.class, () ->parkingService.getVehichleType());
+    }
+
+
+
 
 
     @Test
@@ -80,9 +113,34 @@ public class ParkingServiceTest {
     }
 
     @Test
+    public void testGetNextAvailableSLotMethodBike() {
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+        when(inputReaderUtil.readSelection()).thenReturn(2);
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
+
+        ParkingSpot available = parkingService.getNextParkingNumberIfAvailable();
+
+        verify(parkingSpotDAO).getNextAvailableSlot(any(ParkingType.class));
+        assertEquals(parkingSpot, available);
+    }
+
+    @Test
     public void checkThatTheParkingSLotIsFull() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         when(inputReaderUtil.readSelection()).thenReturn(1);
+        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(0);
+
+        ParkingSpot available = parkingService.getNextParkingNumberIfAvailable();
+
+        verify(parkingSpotDAO).getNextAvailableSlot(any(ParkingType.class));
+        assertEquals(null , available);
+    }
+
+    @Test
+    public void checkThatTheParkingSLotIsFullBike() {
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        when(inputReaderUtil.readSelection()).thenReturn(2);
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(0);
 
         ParkingSpot available = parkingService.getNextParkingNumberIfAvailable();
@@ -118,15 +176,17 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void processIncomingVehicleTest2() {
+    public void checkIfTheTicketIsSaveTrue() {
+        Ticket ticket;
         try {
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
             ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
             Date inTime = new Date();
-            Ticket ticket = new Ticket();
+            ticket = new Ticket();
             ticket.setParkingSpot(parkingSpot);
             ticket.setVehicleRegNumber("ABCDEF");
             ticket.setInTime(inTime);
+
 
 
             when(inputReaderUtil.readSelection()).thenReturn(1);
@@ -139,7 +199,36 @@ public class ParkingServiceTest {
             throw new RuntimeException("Failed to set up test mock objects");
         }
         parkingService.processIncomingVehicle();
-        verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
+        assertEquals(true, ticketDAO.saveTicket(ticket));
+
+    }
+
+    @Test
+    public void checkIfTheTicketIsSaveFalse() {
+        Ticket ticket;
+        try {
+            parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            Date inTime = new Date();
+            ticket = new Ticket();
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            ticket.setInTime(inTime);
+
+
+
+            when(inputReaderUtil.readSelection()).thenReturn(1);
+            when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
+            when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
+        parkingService.processIncomingVehicle();
+        assertEquals(false, ticketDAO.saveTicket(ticket));
+
     }
 
 
@@ -177,7 +266,7 @@ public class ParkingServiceTest {
 
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
             when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
-            when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
+            when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true); //add a test with update ticket false
 
         } catch (Exception e) {
             e.printStackTrace();
