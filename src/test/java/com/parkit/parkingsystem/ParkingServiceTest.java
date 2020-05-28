@@ -44,14 +44,13 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testOfTOTOvehicleRegNumber() {
+    public void testOfNullVehicleRegNumber() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        when(ticketDAO.countVehicleRegNumber("toto")).thenReturn(1);
+        when(ticketDAO.countVehicleRegNumber(null)).thenThrow(new IllegalArgumentException());
 
-        int count = parkingService.countTheNumberOfVisits("toto");
+        assertThrows(IllegalArgumentException.class, () -> parkingService.countTheNumberOfVisits(null));
 
-        verify(ticketDAO).countVehicleRegNumber("toto");
-        assertEquals(1, count);
+        verify(ticketDAO).countVehicleRegNumber(null);
     }
 
     @Test
