@@ -64,6 +64,8 @@ public class ParkingServiceTest {
         assertEquals(0, count);
     }
 
+
+
     @Test
     public void testGetNextAvailableSLotMethod() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
