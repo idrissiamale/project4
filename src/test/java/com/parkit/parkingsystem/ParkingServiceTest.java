@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.omg.CORBA.DynAnyPackage.Invalid;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -297,27 +297,18 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void processIncomingVehicleTest() {
+    public void processIncomingVehicleWhenTheParkingIsFull() {
         try {
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-            Date inTime = new Date();
-            Ticket ticket = new Ticket();
-            ticket.setParkingSpot(parkingSpot);
-            ticket.setVehicleRegNumber("FGHIJK");
-            ticket.setInTime(inTime);
-
-
             when(inputReaderUtil.readSelection()).thenReturn(1);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(0);
-
-            
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to set up test mock objects");
         }
         parkingService.processIncomingVehicle();
         verify(parkingSpotDAO, Mockito.times(1)).getNextAvailableSlot(any(ParkingType.class));
+
     }
 
     @Test
@@ -372,7 +363,7 @@ public class ParkingServiceTest {
     public void processExitingVehicleTestGetTicket() {
         try {
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
             Ticket ticket = new Ticket();
             ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
             ticket.setParkingSpot(parkingSpot);
@@ -398,7 +389,7 @@ public class ParkingServiceTest {
     public void processExitingVehicleTestUpdateTicketTrue() {
         try {
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
             Ticket ticket = new Ticket();
             ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
             ticket.setParkingSpot(parkingSpot);
@@ -406,7 +397,7 @@ public class ParkingServiceTest {
 
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
             when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
-            when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true); //add a test with update ticket false
+            when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
             when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
 
         } catch (Exception e) {
@@ -421,7 +412,7 @@ public class ParkingServiceTest {
     public void processExitingVehicleTestUpdateTicketFalse() {
         try {
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
             Ticket ticket = new Ticket();
             ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
             ticket.setParkingSpot(parkingSpot);
@@ -444,7 +435,7 @@ public class ParkingServiceTest {
     public void processExitingVehicleTestUpdateParkingSpot() {
         try {
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
             Ticket ticket = new Ticket();
             ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
             ticket.setParkingSpot(parkingSpot);
