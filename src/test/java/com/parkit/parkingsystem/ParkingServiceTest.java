@@ -304,11 +304,7 @@ public class ParkingServiceTest {
         parkingService.processIncomingVehicle();
         verify(ticketDAO, Mockito.times(1)).countVehicleRegNumber(anyString());
     }
-
-    @Test
-    public void testExceptionProcessIncomingVehicule(){
-
-    }
+    
 
     @Test
     public void processExitingVehicleTestGetVehiculeRegNumber() throws Exception {
