@@ -93,7 +93,7 @@ public class ParkingServiceTest {
         verify(parkingSpotDAO).getNextAvailableSlot(any(ParkingType.class));
         assertEquals(parkingSpot, available);
     }
-    
+
     @Test
     public void checkThatTheParkingSLotIsFull() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
