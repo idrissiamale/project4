@@ -67,38 +67,6 @@ public class ParkingServiceTest {
         assertEquals(0, count);
     }
 
-    @Test
-    public void getVehiculeTypeCar(){
-        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        when(inputReaderUtil.readSelection()).thenReturn(1);
-
-        ParkingType parkingType = parkingService.getVehichleType();
-        assertEquals(parkingType.CAR, parkingType);
-    }
-
-    @Test
-    public void getVehiculeTypeBike(){
-        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
-        when(inputReaderUtil.readSelection()).thenReturn(2);
-
-        ParkingType parkingType = parkingService.getVehichleType();
-        assertEquals(parkingType.BIKE, parkingType);
-    }
-
-    @Test
-    public void getVehiculeTypeError(){
-        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
-        when(inputReaderUtil.readSelection()).thenReturn(3).thenThrow(new IllegalArgumentException());
-
-        assertThrows(IllegalArgumentException.class, () ->parkingService.getVehichleType());
-    }
-
-
-
-
 
     @Test
     public void testGetNextAvailableSLotMethod() {
@@ -335,6 +303,11 @@ public class ParkingServiceTest {
         }
         parkingService.processIncomingVehicle();
         verify(ticketDAO, Mockito.times(1)).countVehicleRegNumber(anyString());
+    }
+
+    @Test
+    public void testExceptionProcessIncomingVehicule(){
+
     }
 
     @Test
