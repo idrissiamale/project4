@@ -27,17 +27,11 @@ import static org.mockito.Mockito.*;
 public class FareCalculatorServiceTest {
 
     private static FareCalculatorService fareCalculatorService;
-    private static ParkingService parkingService;
     private Ticket ticket;
 
     @Mock
     private static TicketDAO ticketDAO;
 
-    @Mock
-    private static ParkingSpotDAO parkingSpotDAO;
-
-    @Mock
-    private static InputReaderUtil inputReaderUtil;
 
 
     @BeforeAll
@@ -219,18 +213,13 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareCarForAReccuringUserOfOurParkingLot(){
-        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        Date inTime = new Date();
-        inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
-        Date outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
-
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
+        TicketDAO ticketDAO = mock(TicketDAO.class);
         when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
+
         fareCalculatorService.calculateFare(ticket);
-        assertEquals(Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT, ticket.getPrice());
+
+        verify(ticketDAO).countVehicleRegNumber("ABCDEF");
+
     }
 
 }
