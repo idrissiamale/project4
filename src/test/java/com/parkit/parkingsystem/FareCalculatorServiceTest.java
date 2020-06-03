@@ -51,11 +51,12 @@ public class FareCalculatorServiceTest {
         inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        String vehiculeRegNumber = "ABCDEF";
 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
+        fareCalculatorService.calculateFare(ticket, vehiculeRegNumber);
         assertEquals(Fare.CAR_RATE_PER_HOUR, ticket.getPrice());
     }
 
@@ -65,11 +66,12 @@ public class FareCalculatorServiceTest {
         inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
+        String vehiculeRegNumber = "ABCDEF";
 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
+        fareCalculatorService.calculateFare(ticket, vehiculeRegNumber);
         assertEquals(Fare.BIKE_RATE_PER_HOUR, ticket.getPrice());
     }
 
@@ -79,11 +81,12 @@ public class FareCalculatorServiceTest {
         inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, null,false);
+        String vehiculeRegNumber = "ABCDEF";
 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        assertThrows(NullPointerException.class, () -> fareCalculatorService.calculateFare(ticket));
+        assertThrows(NullPointerException.class, () -> fareCalculatorService.calculateFare(ticket, vehiculeRegNumber));
     }
 
     @Test
@@ -92,11 +95,12 @@ public class FareCalculatorServiceTest {
         inTime.setTime( System.currentTimeMillis() + (  60 * 60 * 1000) );
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
+        String vehiculeRegNumber = "ABCDEF";
 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateFare(ticket));
+        assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateFare(ticket, vehiculeRegNumber));
     }
 
     @Test
@@ -105,11 +109,12 @@ public class FareCalculatorServiceTest {
         inTime.setTime( System.currentTimeMillis() - (  45 * 60 * 1000) );//45 minutes parking time should give 3/4th parking fare
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
+        String vehiculeRegNumber = "ABCDEF";
 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
+        fareCalculatorService.calculateFare(ticket, vehiculeRegNumber);
         assertEquals((0.75 * Fare.BIKE_RATE_PER_HOUR), ticket.getPrice() );
     }
 
@@ -119,11 +124,12 @@ public class FareCalculatorServiceTest {
         inTime.setTime( System.currentTimeMillis() - (  45 * 60 * 1000) );//45 minutes parking time should give 3/4th parking fare
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        String vehiculeRegNumber = "ABCDEF";
 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
+        fareCalculatorService.calculateFare(ticket, vehiculeRegNumber);
         assertEquals( (0.75 * Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
     }
 
@@ -133,11 +139,12 @@ public class FareCalculatorServiceTest {
         inTime.setTime( System.currentTimeMillis() - (  24 * 60 * 60 * 1000) );//24 hours parking time should give 24 * parking fare per hour
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        String vehiculeRegNumber = "ABCDEF";
 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
+        fareCalculatorService.calculateFare(ticket,vehiculeRegNumber);
         assertEquals( (24 * Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
     }
 
@@ -147,11 +154,12 @@ public class FareCalculatorServiceTest {
         inTime.setTime( System.currentTimeMillis() - (  24 * 60 * 60 * 1000) );//24 hours parking time should give 24 * parking fare per hour
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
+        String vehiculeRegNumber = "FGHIJK";
 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
+        fareCalculatorService.calculateFare(ticket, vehiculeRegNumber);
         assertEquals( (24 * Fare.BIKE_RATE_PER_HOUR) , ticket.getPrice());
     }
 
@@ -161,11 +169,12 @@ public class FareCalculatorServiceTest {
         inTime.setTime( System.currentTimeMillis() - ( 30 * 60 * 1000) );
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        String vehiculeRegNumber = "ABCDEF";
 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
+        fareCalculatorService.calculateFare(ticket, vehiculeRegNumber);
         assertEquals( (0.5 * Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
     }
 
@@ -175,11 +184,12 @@ public class FareCalculatorServiceTest {
         inTime.setTime( System.currentTimeMillis() - ( 30 * 60 * 1000) );
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
+        String vehiculeRegNumber = "ABCDEF";
 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
+        fareCalculatorService.calculateFare(ticket, vehiculeRegNumber);
         assertEquals( (0.5 * Fare.BIKE_RATE_PER_HOUR) , ticket.getPrice());
     }
 
@@ -190,11 +200,12 @@ public class FareCalculatorServiceTest {
         inTime.setTime( System.currentTimeMillis() - ( 15 * 60 * 1000) );
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        String vehiculeRegNumber = "ABCDEF";
 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
+        fareCalculatorService.calculateFare(ticket, vehiculeRegNumber);
         assertEquals( (0.25 * Fare.UNDER_THIRTY_MINUTES) , ticket.getPrice());
     }
 
@@ -204,28 +215,52 @@ public class FareCalculatorServiceTest {
         inTime.setTime( System.currentTimeMillis() - ( 15 * 60 * 1000) );
         Date outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
+        String vehiculeRegNumber = "ABCDEF";
 
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
+        fareCalculatorService.calculateFare(ticket, vehiculeRegNumber);
         assertEquals( (0.25 * Fare.UNDER_THIRTY_MINUTES) , ticket.getPrice());
     }
 
     @Test
     public void calculateFareCarForAReccuringUserOfOurParkingLot(){
         String vehiculeRegNumber = "ABCDEF";
-        int count = fareCalculatorService.checkIfItIsARecurringUser(vehiculeRegNumber);
+        int count = fareCalculatorService.checkIfItIsARecurringUser(ticket, vehiculeRegNumber);
 
         assertEquals(9, count);
     }
 
     @Test
     public void calculateFareCarForANonReccuringUserOfOurParkingLot(){
-        String vehiculeRegNumber = "FGHIJK";
-        int count = fareCalculatorService.checkIfItIsARecurringUser(vehiculeRegNumber);
+        Date inTime = new Date();
+        inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
+        Date outTime = new Date();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        String vehiculeRegNumber = "ABCDEF";
 
-        assertEquals(0, count);
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        fareCalculatorService.calculateFare(ticket, vehiculeRegNumber);
+
+        assertEquals(Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT, ticket.getPrice());
+    }
+
+    @Test
+    public void calculateFareForAReccuringUserOfOurParkingLot(){
+        Date inTime = new Date();
+        inTime.setTime( System.currentTimeMillis() - (  60 * 60 * 1000) );
+        Date outTime = new Date();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+        String vehiculeRegNumber = "FGHIJK";
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        fareCalculatorService.calculateFare(ticket, vehiculeRegNumber);
+        assertEquals(Fare.CAR_RATE_PER_HOUR, ticket.getPrice());
     }
 
 }
