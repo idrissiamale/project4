@@ -29,8 +29,9 @@ public class FareCalculatorServiceTest {
     private static FareCalculatorService fareCalculatorService;
     private Ticket ticket;
 
-    @Mock
-    private static TicketDAO ticketDAO;
+
+
+    TicketDAO ticketDAO = new TicketDAO();
 
 
 
@@ -213,13 +214,18 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareCarForAReccuringUserOfOurParkingLot(){
-        TicketDAO ticketDAO = mock(TicketDAO.class);
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
+        String vehiculeRegNumber = "ABCDEF";
+        int count = fareCalculatorService.checkIfItIsARecurringUser(vehiculeRegNumber);
 
-        fareCalculatorService.calculateFare(ticket);
+        assertEquals(9, count);
+    }
 
-        verify(ticketDAO).countVehicleRegNumber("ABCDEF");
+    @Test
+    public void calculateFareCarForANonReccuringUserOfOurParkingLot(){
+        String vehiculeRegNumber = "FGHIJK";
+        int count = fareCalculatorService.checkIfItIsARecurringUser(vehiculeRegNumber);
 
+        assertEquals(0, count);
     }
 
 }

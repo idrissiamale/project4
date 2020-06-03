@@ -1,22 +1,21 @@
 package com.parkit.parkingsystem.service;
 
 import com.parkit.parkingsystem.constants.Fare;
+import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.helpers.HelperClass;
 import com.parkit.parkingsystem.model.Ticket;
+import com.parkit.parkingsystem.util.InputReaderUtil;
 
 public class FareCalculatorService {
     private static HelperClass helper = new HelperClass();
-    private TicketDAO ticketDAO = new TicketDAO();
+    public TicketDAO ticketDAO = new TicketDAO();
+
     private double inTime;
     private double outTime;
     private double durationInMinutes;
     private double duration;
 
-
-    public FareCalculatorService() {
-
-    }
 
     public void calculateFare(Ticket ticket) {
         if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
@@ -45,12 +44,16 @@ public class FareCalculatorService {
         if (duration < 0.5) {
             ticket.setPrice(duration * Fare.UNDER_THIRTY_MINUTES);
         }
+
+
+
     }
 
 
 
-    public int checkIfItIsARecurringUser() {
-        int numberOfVisits = ticketDAO.countVehicleRegNumber("ABCDEF");
+    public int checkIfItIsARecurringUser(String vehiculeRegNumber) {
+        int numberOfVisits = 0;
+        numberOfVisits = ticketDAO.countVehicleRegNumber(vehiculeRegNumber);
         if (numberOfVisits > 0) {
                 System.out.println("Welcome back ! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
         }
