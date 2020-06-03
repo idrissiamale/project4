@@ -190,7 +190,7 @@ public class FareCalculatorServiceTest {
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);
         fareCalculatorService.calculateFare(ticket, vehiculeRegNumber);
-        assertEquals( (0.5 * Fare.BIKE_RATE_PER_HOUR) , ticket.getPrice());
+        assertEquals( (0.5 * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT) , ticket.getPrice());
     }
 
 
@@ -224,13 +224,6 @@ public class FareCalculatorServiceTest {
         assertEquals( (0.25 * Fare.UNDER_THIRTY_MINUTES) , ticket.getPrice());
     }
 
-    @Test
-    public void calculateFareCarForAReccuringUserOfOurParkingLot(){
-        String vehiculeRegNumber = "ABCDEF";
-        int count = fareCalculatorService.checkIfItIsARecurringUser(ticket, vehiculeRegNumber);
-
-        assertEquals(9, count);
-    }
 
     @Test
     public void calculateFareCarForANonReccuringUserOfOurParkingLot(){
