@@ -62,34 +62,5 @@ public class FareCalculatorService {
         if (duration < 0.5) {
             ticket.setPrice(duration * Fare.UNDER_THIRTY_MINUTES);
         }
-
-    }
-
-
-
-    public int checkIfItIsARecurringUser(Ticket ticket, String vehiculeRegNumber) {
-        int numberOfVisits = 0;
-        numberOfVisits = ticketDAO.countVehicleRegNumber(vehiculeRegNumber);
-        if(numberOfVisits > 0) {
-            calculateFareForARecurringUser(ticket);
-        } else {
-            calculateFare(ticket, vehiculeRegNumber);
-        }
-        return numberOfVisits;
-    }
-
-    public void calculateFareForARecurringUser(Ticket ticket) {
-        switch (ticket.getParkingSpot().getParkingType()) {
-            case CAR: {
-                ticket.setPrice(duration * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT);
-                break;
-            }
-            case BIKE: {
-                ticket.setPrice(duration * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT);
-                break;
-            }
-            default:
-                throw new IllegalArgumentException("Unkown Parking Type");
-        }
     }
 }
