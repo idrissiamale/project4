@@ -10,15 +10,16 @@ public class FareCalculatorService {
     private static HelperClass helper = new HelperClass();
     public TicketDAO ticketDAO = new TicketDAO();
 
-    public void calculateFare(Ticket ticket, String vehiculeRegNumber) {
+    public void calculateFare(Ticket ticket) {
         if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
             throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
         }
 
         double durationInMinutes = helper.getMinutes(ticket.getOutTime().getTime(), ticket.getInTime().getTime());
         double duration = helper.getHours(durationInMinutes);
-
+        String vehiculeRegNumber = ticket.getVehicleRegNumber();
         int numberOfVisits = ticketDAO.countVehicleRegNumber(vehiculeRegNumber);
+        
         if (numberOfVisits > 0) {
             ticket.setPrice(this.getPriceWithDiscount(ticket.getParkingSpot().getParkingType(), duration));
         } else {
