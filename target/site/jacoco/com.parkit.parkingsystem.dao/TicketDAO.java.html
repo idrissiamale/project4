@@ -10,11 +10,11 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 
-<span class="nc" id="L13">public class TicketDAO {</span>
+<span class="fc" id="L13">public class TicketDAO {</span>
 
 <span class="fc" id="L15">    private static final Logger logger = LogManager.getLogger(&quot;TicketDAO&quot;);</span>
 
-<span class="nc" id="L17">    public DataBaseConfig dataBaseConfig = new DataBaseConfig();</span>
+<span class="fc" id="L17">    public DataBaseConfig dataBaseConfig = new DataBaseConfig();</span>
 
     public boolean saveTicket(Ticket ticket){
 <span class="nc" id="L20">        Connection con = null;</span>
@@ -85,21 +85,21 @@ import java.sql.*;
     }
 
     public int countVehicleRegNumber(String vehicleRegNumber) {
-<span class="nc" id="L88">        Connection con = null;</span>
-<span class="nc" id="L89">        int count = 0;</span>
+<span class="fc" id="L88">        Connection con = null;</span>
+<span class="fc" id="L89">        int count = 0;</span>
         try {
-<span class="nc" id="L91">            con = dataBaseConfig.getConnection();</span>
-<span class="nc" id="L92">            PreparedStatement ps = con.prepareStatement(&quot;SELECT COUNT(*) FROM ticket WHERE VEHICLE_REG_NUMBER=?&quot;);</span>
-<span class="nc" id="L93">            ps.setString(1, vehicleRegNumber);</span>
-<span class="nc" id="L94">            ResultSet rs = ps.executeQuery();</span>
-<span class="nc bnc" id="L95" title="All 2 branches missed.">            if(rs.next()){</span>
-<span class="nc" id="L96">                count = rs.getInt(1);</span>
+<span class="fc" id="L91">            con = dataBaseConfig.getConnection();</span>
+<span class="fc" id="L92">            PreparedStatement ps = con.prepareStatement(&quot;SELECT COUNT(*) FROM ticket WHERE VEHICLE_REG_NUMBER=?&quot;);</span>
+<span class="fc" id="L93">            ps.setString(1, vehicleRegNumber);</span>
+<span class="fc" id="L94">            ResultSet rs = ps.executeQuery();</span>
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">            if(rs.next()){</span>
+<span class="fc" id="L96">                count = rs.getInt(1);</span>
             }
-<span class="nc" id="L98">            return count;</span>
+<span class="fc" id="L98">            return count;</span>
 <span class="nc" id="L99">        } catch(Exception ex) {</span>
 <span class="nc" id="L100">            logger.error(&quot;Error counting vehicle registration numbers&quot;, ex);</span>
         } finally {
-<span class="nc" id="L102">            dataBaseConfig.closeConnection(con);</span>
+<span class="fc" id="L102">            dataBaseConfig.closeConnection(con);</span>
         }
 <span class="nc" id="L104">        return 0;</span>
     }
