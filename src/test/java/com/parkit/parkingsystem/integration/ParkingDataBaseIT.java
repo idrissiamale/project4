@@ -44,16 +44,16 @@ public class ParkingDataBaseIT {
         parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
         ticketDAO = new TicketDAO();
         ticketDAO.dataBaseConfig = dataBaseTestConfig;
+    }
+
+    @AfterAll
+    private static void tearDown(){
         dataBasePrepareService = new DataBasePrepareService();
         dataBasePrepareService.clearDataBaseEntries();
     }
 
 
 
-    @AfterAll
-    private static void tearDown(){
-
-    }
 
     @Test
     public void testParkingACar() throws Exception {
@@ -78,6 +78,7 @@ public class ParkingDataBaseIT {
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         Date inTime = new Date();
+        inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
         Ticket ticket = new Ticket();
         ticket.setParkingSpot(parkingSpot);
         ticket.setVehicleRegNumber("ABCDEF");
@@ -85,10 +86,12 @@ public class ParkingDataBaseIT {
         ticket.setInTime(inTime);
         ticket.setOutTime(null);
 
+
         parkingService.processIncomingVehicle();
 
         assertTrue(parkingSpotDAO.updateParking(parkingSpot));
         assertFalse(ticketDAO.saveTicket(ticket));
+        assertNotNull(ticketDAO.getTicket("ABCDEF"));
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
     }
 
