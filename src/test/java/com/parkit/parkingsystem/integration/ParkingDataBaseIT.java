@@ -59,10 +59,8 @@ public class ParkingDataBaseIT {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
         parkingSpot.setAvailable(false);
-
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-
 
         parkingService.processIncomingVehicle();
 
@@ -71,8 +69,31 @@ public class ParkingDataBaseIT {
     }
 
     @Test
+    public void testParkingACar1() throws Exception {
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
+        parkingSpot.setAvailable(false);
+        parkingSpotDAO.updateParking(parkingSpot);
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+        Date inTime = new Date();
+        Ticket ticket = new Ticket();
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setVehicleRegNumber("ABCDEF");
+        ticket.setPrice(0);
+        ticket.setInTime(inTime);
+        ticket.setOutTime(null);
+
+        parkingService.processIncomingVehicle();
+
+        assertTrue(parkingSpotDAO.updateParking(parkingSpot));
+        assertFalse(ticketDAO.saveTicket(ticket));
+        //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
+    }
+
+    @Test
     public void testParkingLotExit() throws Exception {
-        testParkingACar();
+        testParkingACar1();
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         parkingService.processExitingVehicle();
         //TODO: check that the fare generated and out time are populated correctly in the database
