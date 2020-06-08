@@ -21,9 +21,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -110,5 +107,4 @@ public class ParkingDataBaseIT {
         assertTrue(ticketDAO.updateTicket(ticket));
         //TODO: check that the fare generated and out time are populated correctly in the database
     }
-
 }
