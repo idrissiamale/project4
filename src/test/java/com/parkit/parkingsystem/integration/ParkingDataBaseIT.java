@@ -99,6 +99,7 @@ public class ParkingDataBaseIT {
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         Ticket ticket = ticketDAO.getTicket("ABCDEF");
         Date outTime = new Date();
+        ticket.getInTime();
         ticket.setOutTime(outTime);
         FareCalculatorService fareCalculatorService = new FareCalculatorService();
         fareCalculatorService.calculateFare(ticket);
