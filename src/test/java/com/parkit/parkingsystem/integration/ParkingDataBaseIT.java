@@ -38,33 +38,34 @@ public class ParkingDataBaseIT {
 
 
     @BeforeAll
-    private static void setUp() throws Exception{
+    private static void setUp() throws Exception {
         parkingSpotDAO = new ParkingSpotDAO();
         parkingSpotDAO.dataBaseConfig = dataBaseTestConfig;
         ticketDAO = new TicketDAO();
         ticketDAO.dataBaseConfig = dataBaseTestConfig;
     }
 
+    @BeforeEach
+    private void setUpPerTest() throws Exception {
+        ticket = new Ticket();
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+    }
+
     @AfterAll
-    private static void tearDown(){
+    private static void tearDown() throws Exception {
         dataBasePrepareService = new DataBasePrepareService();
         dataBasePrepareService.clearDataBaseEntries();
     }
 
-    @BeforeEach
-    private void setUpPerTest() {
-        ticket = new Ticket();
-    }
     @Test
-    public void testParkingACar1() {
+    public void testParkingACar() {
         ParkingSpot parkingSpot;
-        try{
+        try {
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
             parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
             parkingSpot.setAvailable(false);
             parkingSpotDAO.updateParking(parkingSpot);
             when(inputReaderUtil.readSelection()).thenReturn(1);
-            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
             Date inTime = new Date();
             inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
             ticket.setParkingSpot(parkingSpot);
@@ -72,7 +73,7 @@ public class ParkingDataBaseIT {
             ticket.setPrice(0);
             ticket.setInTime(inTime);
             ticket.setOutTime(null);
-        }catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to set up test mock objects");
         }
@@ -85,11 +86,10 @@ public class ParkingDataBaseIT {
     }
 
     @Test
-    public void testParkingLotExit(){
+    public void testParkingLotExit() {
         try {
-            testParkingACar1();
+            testParkingACar();
             parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
             ticket = ticketDAO.getTicket("ABCDEF");
             Date outTime = new Date();
             ticket.getInTime();
@@ -101,7 +101,7 @@ public class ParkingDataBaseIT {
             throw new RuntimeException("Failed to set up test mock objects");
         }
         parkingService.processExitingVehicle();
-        
+
         assertTrue(ticketDAO.updateTicket(ticket));
         //TODO: check that the fare generated and out time are populated correctly in the database
     }
