@@ -48,24 +48,7 @@ public class ParkingDataBaseIT {
         dataBasePrepareService = new DataBasePrepareService();
         dataBasePrepareService.clearDataBaseEntries();
     }
-
-
-
-
-    @Test
-    public void testParkingACar() throws Exception {
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
-        parkingSpot.setAvailable(false);
-        when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-
-        parkingService.processIncomingVehicle();
-
-        assertTrue(parkingSpotDAO.updateParking(parkingSpot));
-        //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
-    }
-
+    
     @Test
     public void testParkingACar1() throws Exception {
         ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
