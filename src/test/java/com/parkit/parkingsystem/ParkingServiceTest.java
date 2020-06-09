@@ -35,7 +35,7 @@ public class ParkingServiceTest {
 
 
     @Test
-    public void testOfABCDEFvehicleRegNumber() {
+    public void countVehicleRegNumberForARecurringUserOfOurParkingLot() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
 
@@ -45,19 +45,8 @@ public class ParkingServiceTest {
         assertEquals(9, count);
     }
 
-
     @Test
-    public void testOfNullVehicleRegNumberException() {
-        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        when(ticketDAO.countVehicleRegNumber(null)).thenThrow(new IllegalArgumentException());
-
-        assertThrows(IllegalArgumentException.class, () -> parkingService.countTheNumberOfVisits(null));
-
-        verify(ticketDAO).countVehicleRegNumber(null);
-    }
-
-    @Test
-    public void testOfNonExistentVehicleRegNumber() {
+    public void countVehicleRegNumberForANewUserOfOurParkingLot() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         when(ticketDAO.countVehicleRegNumber("FGHIJK")).thenReturn(0);
 
@@ -67,46 +56,53 @@ public class ParkingServiceTest {
         assertEquals(0, count);
     }
 
+    @Test
+    public void countVehicleRegNumberForInvalidInput() {
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        when(ticketDAO.countVehicleRegNumber(null)).thenThrow(new IllegalArgumentException());
+
+        assertThrows(IllegalArgumentException.class, () -> parkingService.countTheNumberOfVisits(null));
+
+        verify(ticketDAO).countVehicleRegNumber(null);
+    }
 
     @Test
-    public void testGetNextAvailableSLotMethod() {
+    public void getNextAvailableSLotForACar() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
 
-        ParkingSpot available = parkingService.getNextParkingNumberIfAvailable();
+        ParkingSpot nextParkingNumberIfAvailable = parkingService.getNextParkingNumberIfAvailable();
 
         verify(parkingSpotDAO).getNextAvailableSlot(any(ParkingType.class));
-        assertEquals(parkingSpot, available);
+        assertEquals(parkingSpot, nextParkingNumberIfAvailable);
     }
 
     @Test
-    public void testGetNextAvailableSLotMethodBike() {
+    public void getNextAvailableSLotForABike() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
         when(inputReaderUtil.readSelection()).thenReturn(2);
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
 
-        ParkingSpot available = parkingService.getNextParkingNumberIfAvailable();
+        ParkingSpot nextParkingNumberIfAvailable = parkingService.getNextParkingNumberIfAvailable();
 
         verify(parkingSpotDAO).getNextAvailableSlot(any(ParkingType.class));
-        assertEquals(parkingSpot, available);
+        assertEquals(parkingSpot, nextParkingNumberIfAvailable);
     }
 
     @Test
-    public void checkThatTheParkingSLotIsFull() {
+    public void getNextAvailableSLotWhenTheParkingSLotIsFull() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         when(inputReaderUtil.readSelection()).thenReturn(1).thenReturn(2);
         when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(0);
 
-        ParkingSpot available = parkingService.getNextParkingNumberIfAvailable();
+        ParkingSpot nextParkingNumberIfAvailable = parkingService.getNextParkingNumberIfAvailable();
 
         verify(parkingSpotDAO).getNextAvailableSlot(any(ParkingType.class));
-        assertEquals(null , available);
+        assertNull(nextParkingNumberIfAvailable);
     }
-
-
 
     @Test
     public void processIncomingVehicleTestRecurringUser() {
@@ -349,9 +345,6 @@ public class ParkingServiceTest {
         parkingService.processExitingVehicle();
         verify(ticketDAO, Mockito.times(1)).getTicket(anyString());
     }
-
-
-
 
 
     @Test

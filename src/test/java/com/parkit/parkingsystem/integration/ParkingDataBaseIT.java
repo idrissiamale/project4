@@ -27,9 +27,11 @@ import static org.mockito.Mockito.when;
 public class ParkingDataBaseIT {
 
     private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
+    private static ParkingService parkingService;
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
     private static DataBasePrepareService dataBasePrepareService;
+    private Ticket ticket;
 
     @Mock
     private static InputReaderUtil inputReaderUtil;
@@ -48,25 +50,32 @@ public class ParkingDataBaseIT {
         dataBasePrepareService = new DataBasePrepareService();
         dataBasePrepareService.clearDataBaseEntries();
     }
-    
+
+    @BeforeEach
+    private void setUpPerTest() {
+        ticket = new Ticket();
+    }
     @Test
-    public void testParkingACar1() throws Exception {
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
-        parkingSpot.setAvailable(false);
-        parkingSpotDAO.updateParking(parkingSpot);
-        when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        Date inTime = new Date();
-        inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
-        Ticket ticket = new Ticket();
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        ticket.setPrice(0);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(null);
-
-
+    public void testParkingACar1() {
+        ParkingSpot parkingSpot;
+        try{
+            parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+            parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
+            parkingSpot.setAvailable(false);
+            parkingSpotDAO.updateParking(parkingSpot);
+            when(inputReaderUtil.readSelection()).thenReturn(1);
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            Date inTime = new Date();
+            inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            ticket.setPrice(0);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(null);
+        }catch(Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         parkingService.processIncomingVehicle();
 
         assertTrue(parkingSpotDAO.updateParking(parkingSpot));
@@ -76,17 +85,23 @@ public class ParkingDataBaseIT {
     }
 
     @Test
-    public void testParkingLotExit() throws Exception {
-        testParkingACar1();
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        Ticket ticket = ticketDAO.getTicket("ABCDEF");
-        Date outTime = new Date();
-        ticket.getInTime();
-        ticket.setOutTime(outTime);
-        FareCalculatorService fareCalculatorService = new FareCalculatorService();
-        fareCalculatorService.calculateFare(ticket);
+    public void testParkingLotExit(){
+        try {
+            testParkingACar1();
+            parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            ticket = ticketDAO.getTicket("ABCDEF");
+            Date outTime = new Date();
+            ticket.getInTime();
+            ticket.setOutTime(outTime);
+            FareCalculatorService fareCalculatorService = new FareCalculatorService();
+            fareCalculatorService.calculateFare(ticket);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         parkingService.processExitingVehicle();
+        
         assertTrue(ticketDAO.updateTicket(ticket));
         //TODO: check that the fare generated and out time are populated correctly in the database
     }
