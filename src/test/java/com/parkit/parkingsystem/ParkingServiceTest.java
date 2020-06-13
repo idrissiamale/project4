@@ -5,10 +5,8 @@ import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
-import com.parkit.parkingsystem.service.FareCalculatorService;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,16 +14,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
+import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Date;
 
-import static org.mockito.Mockito.*;
-
 @ExtendWith(MockitoExtension.class)
 public class ParkingServiceTest {
-
     private static ParkingService parkingService;
 
     @Mock
@@ -42,66 +37,96 @@ public class ParkingServiceTest {
 
     @Test
     public void countVehicleRegNumberForARecurringUserShouldReturnAnIntegerGreaterThanZero() {
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
+        try {
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
 
-        int count = parkingService.countTheNumberOfVisits("ABCDEF");
+            int count = parkingService.countTheNumberOfVisits("ABCDEF");
 
-        verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals(9, count);
+            verify(ticketDAO).countVehicleRegNumber("ABCDEF");
+            assertEquals(9, count);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
     }
 
     @Test
     public void countVehicleRegNumberForANewUserShouldReturnZero() {
-        when(ticketDAO.countVehicleRegNumber("FGHIJK")).thenReturn(0);
+        try {
+            when(ticketDAO.countVehicleRegNumber("FGHIJK")).thenReturn(0);
 
-        int count = parkingService.countTheNumberOfVisits("FGHIJK");
+            int count = parkingService.countTheNumberOfVisits("FGHIJK");
 
-        verify(ticketDAO).countVehicleRegNumber("FGHIJK");
-        assertEquals(0, count);
+            verify(ticketDAO).countVehicleRegNumber("FGHIJK");
+            assertEquals(0, count);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
     }
 
     @Test
     public void countVehicleRegNumberForInvalidInputShouldThrowAnException() {
-        when(ticketDAO.countVehicleRegNumber(null)).thenThrow(new IllegalArgumentException());
+        try {
+            when(ticketDAO.countVehicleRegNumber(null)).thenThrow(new IllegalArgumentException());
 
-        assertThrows(IllegalArgumentException.class, () -> parkingService.countTheNumberOfVisits(null));
+            assertThrows(IllegalArgumentException.class, () -> parkingService.countTheNumberOfVisits(null));
 
-        verify(ticketDAO).countVehicleRegNumber(null);
+            verify(ticketDAO).countVehicleRegNumber(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
     }
 
     @Test
     public void testGetNextAvailableSLotForACar() {
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
+        try {
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            when(inputReaderUtil.readSelection()).thenReturn(1);
+            when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
 
-        ParkingSpot nextParkingNumberIfAvailable = parkingService.getNextParkingNumberIfAvailable();
+            ParkingSpot nextParkingNumberIfAvailable = parkingService.getNextParkingNumberIfAvailable();
 
-        verify(parkingSpotDAO).getNextAvailableSlot(any(ParkingType.class));
-        assertEquals(parkingSpot, nextParkingNumberIfAvailable);
+            verify(parkingSpotDAO).getNextAvailableSlot(any(ParkingType.class));
+            assertEquals(parkingSpot, nextParkingNumberIfAvailable);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
     }
 
     @Test
     public void testGetNextAvailableSLotForABike() {
-        ParkingSpot parkingSpot = new ParkingSpot(2, ParkingType.BIKE, false);
-        when(inputReaderUtil.readSelection()).thenReturn(2);
-        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(2);
+        try {
+            ParkingSpot parkingSpot = new ParkingSpot(2, ParkingType.BIKE, false);
+            when(inputReaderUtil.readSelection()).thenReturn(2);
+            when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(2);
 
-        ParkingSpot nextParkingNumberIfAvailable = parkingService.getNextParkingNumberIfAvailable();
+            ParkingSpot nextParkingNumberIfAvailable = parkingService.getNextParkingNumberIfAvailable();
 
-        verify(parkingSpotDAO).getNextAvailableSlot(any(ParkingType.class));
-        assertEquals(parkingSpot, nextParkingNumberIfAvailable);
+            verify(parkingSpotDAO).getNextAvailableSlot(any(ParkingType.class));
+            assertEquals(parkingSpot, nextParkingNumberIfAvailable);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
     }
 
     @Test
     public void testThatGetNextAvailableSLotIsNullWhenTheParkingSLotIsFull() {
-        when(inputReaderUtil.readSelection()).thenReturn(1).thenReturn(2);
-        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(0);
+        try {
+            when(inputReaderUtil.readSelection()).thenReturn(1, 2);
+            when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(0);
 
-        ParkingSpot nextParkingNumberIfAvailable = parkingService.getNextParkingNumberIfAvailable();
+            ParkingSpot nextParkingNumberIfAvailable = parkingService.getNextParkingNumberIfAvailable();
 
-        verify(parkingSpotDAO).getNextAvailableSlot(any(ParkingType.class));
-        assertNull(nextParkingNumberIfAvailable);
+            verify(parkingSpotDAO).getNextAvailableSlot(any(ParkingType.class));
+            assertNull(nextParkingNumberIfAvailable);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
     }
 
     @Test
@@ -132,7 +157,7 @@ public class ParkingServiceTest {
             Ticket ticket = new Ticket();
             ticket.setVehicleRegNumber("ABCDEF");
             ticket.setInTime(inTime);
-            when(inputReaderUtil.readSelection()).thenReturn(1).thenReturn(2);
+            when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
             when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
@@ -149,7 +174,7 @@ public class ParkingServiceTest {
     @Test
     public void testWhenTheParkingIsFullThatParkingSpotDAOGetNextAvailableSLotInProcessIncomingMethodIsCalled() {
         try {
-            when(inputReaderUtil.readSelection()).thenReturn(1).thenReturn(2);
+            when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(0);
         } catch (Exception e) {
             e.printStackTrace();
@@ -166,7 +191,7 @@ public class ParkingServiceTest {
             Ticket ticket = new Ticket();
             ticket.setVehicleRegNumber("ABCDEF");
             ticket.setInTime(inTime);
-            when(inputReaderUtil.readSelection()).thenReturn(1).thenReturn(2);
+            when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
             when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
@@ -187,7 +212,7 @@ public class ParkingServiceTest {
             Ticket ticket = new Ticket();
             ticket.setVehicleRegNumber("ABCDEF");
             ticket.setInTime(inTime);
-            when(inputReaderUtil.readSelection()).thenReturn(1).thenReturn(2);
+            when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
             when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
@@ -208,7 +233,7 @@ public class ParkingServiceTest {
             Ticket ticket = new Ticket();
             ticket.setVehicleRegNumber("FGHIJK");
             ticket.setInTime(inTime);
-            when(inputReaderUtil.readSelection()).thenReturn(1).thenReturn(2);
+            when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("FGHIJK");
             when(ticketDAO.countVehicleRegNumber("FGHIJK")).thenReturn(0);
@@ -229,7 +254,7 @@ public class ParkingServiceTest {
             Ticket ticket = new Ticket();
             ticket.setVehicleRegNumber("ABCDEF");
             ticket.setInTime(inTime);
-            when(inputReaderUtil.readSelection()).thenReturn(1).thenReturn(2);
+            when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
             when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
@@ -250,7 +275,7 @@ public class ParkingServiceTest {
             Ticket ticket = new Ticket();
             ticket.setVehicleRegNumber("ABCDEF");
             ticket.setInTime(inTime);
-            when(inputReaderUtil.readSelection()).thenReturn(1).thenReturn(2);
+            when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
             when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
@@ -272,7 +297,6 @@ public class ParkingServiceTest {
             ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
             ticket.setParkingSpot(parkingSpot);
             ticket.setVehicleRegNumber("ABCDEF");
-
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
             when(ticketDAO.getTicket(anyString())).thenReturn(ticket);
             when(ticketDAO.updateTicket(any(Ticket.class))).thenReturn(true);
