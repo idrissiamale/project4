@@ -265,7 +265,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testThatInputReaderUtilReadVehicleRegistrationNumberInProcessExitingVehicleIsCalled() {
+    public void testThatInputReaderUtilReadVehicleRegistrationNumberInProcessExitingVehicleMethodIsCalled() {
         try {
             ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
             Ticket ticket = new Ticket();
@@ -286,7 +286,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testThatTicketDAOGetTicketInProcessExitingMethodIsCalled() {
+    public void testThatTicketDAOGetTicketInProcessExitingVehicleMethodIsCalled() {
         try {
             ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
             Ticket ticket = new Ticket();
@@ -326,7 +326,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testThatWhenTicketDAOUpdateTicketIsFalseInProcessExitingMethodWeGetAnErrorMessage() {
+    public void testThatWhenTicketDAOUpdateTicketIsFalseInProcessExitingVehicleMethodWeGetAnErrorMessage() {
         try {
             ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
             Ticket ticket = new Ticket();
