@@ -59,37 +59,33 @@ public class ParkingDataBaseIT {
     }
 
     @Test
-    public void testUpdateParking() {
+    public void testUpdateParkingWithAvailabilityAsFalse() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
         parkingSpot.setAvailable(false);
 
         parkingSpotDAO.updateParking(parkingSpot);
-        assertTrue(parkingSpotDAO.updateParking(parkingSpot));
 
+        assertTrue(parkingSpotDAO.updateParking(parkingSpot));
     }
 
     @Test
-    public void testSaveTicket() {
+    public void testUpdateParkingAvailableSLot() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
-        String vehiculeRegNumber = "ABCDEF";
-        Date inTime = new Date();
-        ticket.setInTime(inTime);
-        ticket.setOutTime(null);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber(vehiculeRegNumber);
-        ticket.setPrice(0);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+        parkingSpot.setAvailable(true);
 
-        ticketDAO.saveTicket(ticket);
-        assertNotNull(ticketDAO.getTicket(vehiculeRegNumber));
+        parkingSpotDAO.updateParking(parkingSpot);
+
+        assertTrue(parkingSpotDAO.updateParking(parkingSpot));
     }
 
     @Test
     public void testParkingACar() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         String vehiculeRegNumber = "ABCDEF";
+        parkingSpotDAO.updateParking(parkingSpot);
         Date inTime = new Date();
         inTime.setTime(System.currentTimeMillis() - 60 * 60 * 1000);
         ticket.setInTime(inTime);
@@ -99,40 +95,15 @@ public class ParkingDataBaseIT {
         ticket.setPrice(0);
 
         ticketDAO.saveTicket(ticket);
+
         assertNotNull(ticketDAO.getTicket(vehiculeRegNumber));
     }
-
-    @Test
-    public void testParkingACar2() {
-        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
-        when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-
-        parkingService.processIncomingVehicle();
-        assertEquals(1, ticketDAO.countVehicleRegNumber("ABCDEF"));
-        //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
-    }
-
-
-    @Test
-    public void testParkingLotExit2() {
-        testParkingACar();
-        ticket = ticketDAO.getTicket("ABCDEF");
-        Date outTime = new Date();
-        ticket.setOutTime(outTime);
-        FareCalculatorService fareCalculatorService = new FareCalculatorService();
-        fareCalculatorService.calculateFare(ticket);
-
-        ticketDAO.updateTicket(ticket);
-        assertEquals(Fare.CAR_RATE_PER_HOUR, ticket.getPrice());
-        assertEquals(1, ticketDAO.countVehicleRegNumber("ABCDEF"));
-        //TODO: check that the fare generated and out time are populated correctly in the database
-    }
+    //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
 
     @Test
     public void testParkingLotExit() {
         testParkingACar();
+        ticket = ticketDAO.getTicket("ABCDEF");
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         Date outTime = new Date();
         ticket.setOutTime(outTime);
@@ -140,15 +111,9 @@ public class ParkingDataBaseIT {
         fareCalculatorService.calculateFare(ticket);
 
         parkingService.processExitingVehicle();
+
         assertTrue(ticketDAO.updateTicket(ticket));
         assertEquals(1, ticketDAO.countVehicleRegNumber("ABCDEF"));
     }
-
-    @Test
-    public void testParkingLotEntry() {
-        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        parkingService.processIncomingVehicle();
-    }
+    //TODO: check that the fare generated and out time are populated correctly in the database
 }
