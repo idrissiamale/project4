@@ -26,6 +26,7 @@ public class FareCalculatorService {
             ticket.setPrice(this.getPriceWithoutDiscount(ticket.getParkingSpot().getParkingType(), duration));
         }
 
+
         if (duration < 0.5) {
             ticket.setPrice(this.getPriceFree30MinParking(duration));
         }
