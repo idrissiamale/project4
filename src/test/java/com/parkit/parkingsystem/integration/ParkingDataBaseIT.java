@@ -1,5 +1,6 @@
 package com.parkit.parkingsystem.integration;
 
+import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
@@ -98,15 +99,41 @@ public class ParkingDataBaseIT {
         ticket.setPrice(0);
 
         ticketDAO.saveTicket(ticket);
+        assertNotNull(ticketDAO.getTicket(vehiculeRegNumber));
+    }
+
+    @Test
+    public void testParkingACar2() {
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+
+        parkingService.processIncomingVehicle();
         assertEquals(1, ticketDAO.countVehicleRegNumber("ABCDEF"));
         //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
+    }
+
+
+    @Test
+    public void testParkingLotExit2() {
+        testParkingACar();
+        ticket = ticketDAO.getTicket("ABCDEF");
+        Date outTime = new Date();
+        ticket.setOutTime(outTime);
+        FareCalculatorService fareCalculatorService = new FareCalculatorService();
+        fareCalculatorService.calculateFare(ticket);
+
+        ticketDAO.updateTicket(ticket);
+        assertEquals(Fare.CAR_RATE_PER_HOUR, ticket.getPrice());
+        assertEquals(1, ticketDAO.countVehicleRegNumber("ABCDEF"));
+        //TODO: check that the fare generated and out time are populated correctly in the database
     }
 
     @Test
     public void testParkingLotExit() {
         testParkingACar();
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        ticket = ticketDAO.getTicket("ABCDEF");
         Date outTime = new Date();
         ticket.setOutTime(outTime);
         FareCalculatorService fareCalculatorService = new FareCalculatorService();
@@ -115,6 +142,5 @@ public class ParkingDataBaseIT {
         parkingService.processExitingVehicle();
         assertTrue(ticketDAO.updateTicket(ticket));
         assertEquals(1, ticketDAO.countVehicleRegNumber("ABCDEF"));
-        //TODO: check that the fare generated and out time are populated correctly in the database
     }
 }
