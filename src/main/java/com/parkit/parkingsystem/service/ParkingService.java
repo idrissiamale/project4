@@ -65,7 +65,7 @@ public class ParkingService {
 
     public int countTheNumberOfVisits(String vehicleRegNumber) {
         int numberOfVisits = ticketDAO.countVehicleRegNumber(vehicleRegNumber);
-        if(numberOfVisits > 0) {
+        if(numberOfVisits > 1) {
             System.out.println("Welcome back ! As a recurring user of our parking lot, you'll benefit from a 5% discount.");
         }
         return numberOfVisits;
