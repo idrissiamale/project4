@@ -143,4 +143,12 @@ public class ParkingDataBaseIT {
         assertTrue(ticketDAO.updateTicket(ticket));
         assertEquals(1, ticketDAO.countVehicleRegNumber("ABCDEF"));
     }
+
+    @Test
+    public void testParkingLotEntry() {
+        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        when(inputReaderUtil.readSelection()).thenReturn(1);
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+        parkingService.processIncomingVehicle();
+    }
 }

@@ -20,7 +20,7 @@ public class FareCalculatorService {
         String vehiculeRegNumber = ticket.getVehicleRegNumber();
         int numberOfVisits = ticketDAO.countVehicleRegNumber(vehiculeRegNumber);
 
-        if (numberOfVisits > 1) {
+        if (numberOfVisits > 0) {
             ticket.setPrice(this.getPriceWithDiscount(ticket.getParkingSpot().getParkingType(), duration));
         } else {
             ticket.setPrice(this.getPriceWithoutDiscount(ticket.getParkingSpot().getParkingType(), duration));
