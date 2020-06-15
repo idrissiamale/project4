@@ -19,13 +19,11 @@ public class FareCalculatorService {
         double duration = helper.getHours(durationInMinutes);
         String vehiculeRegNumber = ticket.getVehicleRegNumber();
         int numberOfVisits = ticketDAO.countVehicleRegNumber(vehiculeRegNumber);
-
         if (numberOfVisits > 0) {
             ticket.setPrice(this.getPriceWithDiscount(ticket.getParkingSpot().getParkingType(), duration));
         } else {
             ticket.setPrice(this.getPriceWithoutDiscount(ticket.getParkingSpot().getParkingType(), duration));
         }
-
 
         if (duration < 0.5) {
             ticket.setPrice(this.getPriceFree30MinParking(duration));
