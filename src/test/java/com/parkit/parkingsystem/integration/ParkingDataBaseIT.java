@@ -156,6 +156,7 @@ public class ParkingDataBaseIT {
         ticketDAO.saveTicket(ticket);
 
         assertNotNull(ticketDAO.getTicket(vehiculeRegNumber));
+        assertEquals(1, ticketDAO.countVehicleRegNumber("ABCDEF"));
     }
 
     @Test
@@ -172,6 +173,7 @@ public class ParkingDataBaseIT {
         assertTrue(ticketDAO.updateTicket(ticket));
         assertEquals(outTime, ticket.getOutTime());
         assertEquals(Fare.CAR_RATE_PER_HOUR, ticket.getPrice());
+        assertEquals(1, ticketDAO.countVehicleRegNumber("ABCDEF"));
     }
 
     //TODO: check that the fare generated and out time are populated correctly in the database
