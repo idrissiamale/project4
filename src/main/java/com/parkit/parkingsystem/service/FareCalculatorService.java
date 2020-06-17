@@ -2,13 +2,20 @@ package com.parkit.parkingsystem.service;
 
 import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
+import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.helpers.HelperClass;
 import com.parkit.parkingsystem.model.Ticket;
+import com.parkit.parkingsystem.util.InputReaderUtil;
 
 public class FareCalculatorService {
     private static HelperClass helper = new HelperClass();
-    private static TicketDAO ticketDAO = new TicketDAO();
+    private TicketDAO ticketDAO;
+
+    public FareCalculatorService(TicketDAO ticketDAO) {
+        this.ticketDAO = ticketDAO;
+    }
+
 
     public void calculateFare(Ticket ticket) {
         if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
@@ -19,6 +26,8 @@ public class FareCalculatorService {
         double duration = helper.getHours(durationInMinutes);
         String vehiculeRegNumber = ticket.getVehicleRegNumber();
         int numberOfVisits = ticketDAO.countVehicleRegNumber(vehiculeRegNumber);
+        System.out.println(numberOfVisits);
+
         if (numberOfVisits > 1) {
             ticket.setPrice(this.getPriceWithDiscount(ticket.getParkingSpot().getParkingType(), duration));
         } else {
