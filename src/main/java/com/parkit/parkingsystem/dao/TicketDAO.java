@@ -97,9 +97,6 @@ public class TicketDAO {
             if(rs.next()){
                 count = rs.getInt(1);
             }
-            dataBaseConfig.closeResultSet(rs);
-            dataBaseConfig.closePreparedStatement(ps);
-            dataBaseConfig.closeConnection(con);
             return count;
         } catch(Exception ex) {
             logger.error("Error counting vehicle registration numbers", ex);
