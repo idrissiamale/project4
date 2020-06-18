@@ -127,7 +127,6 @@ public class ParkingDataBaseIT {
     @Test
     public void testParkingLotExit() {
         testParkingACar();
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         ticket = ticketDAO.getTicket("ABCDEF");
         Date outTime = new Date();
         ticket.setOutTime(outTime);
