@@ -32,10 +32,10 @@ public class ParkingDataBaseIT {
 
     private static DataBaseTestConfig dataBaseTestConfig = new DataBaseTestConfig();
     private static ParkingService parkingService;
-    private static FareCalculatorService fareCalculatorService;
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
     private static DataBasePrepareService dataBasePrepareService;
+    private static FareCalculatorService fareCalculatorService;
     private Ticket ticket;
 
     @Mock
@@ -127,9 +127,11 @@ public class ParkingDataBaseIT {
     @Test
     public void testParkingLotExit() {
         testParkingACar();
+        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
         ticket = ticketDAO.getTicket("ABCDEF");
         Date outTime = new Date();
         ticket.setOutTime(outTime);
+        FareCalculatorService fareCalculatorService = new FareCalculatorService(ticketDAO);
         fareCalculatorService.calculateFare(ticket);
 
         parkingService.processExitingVehicle();
@@ -142,7 +144,6 @@ public class ParkingDataBaseIT {
     @Test
     public void testParkingACarOfANewUserWithOneHourParkingTime() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        System.out.println("toto" + ticketDAO.countVehicleRegNumber("ABCDEF"));
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         String vehiculeRegNumber = "ABCDEF";
         Date inTime = new Date();
@@ -165,6 +166,7 @@ public class ParkingDataBaseIT {
         ticket = ticketDAO.getTicket("ABCDEF");
         Date outTime = new Date();
         ticket.setOutTime(outTime);
+        FareCalculatorService fareCalculatorService = new FareCalculatorService(ticketDAO);
         fareCalculatorService.calculateFare(ticket);
 
         parkingService.processExitingVehicle();

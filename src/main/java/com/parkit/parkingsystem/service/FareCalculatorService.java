@@ -8,7 +8,7 @@ import com.parkit.parkingsystem.model.Ticket;
 
 public class FareCalculatorService {
     private static HelperClass helper = new HelperClass();
-    private TicketDAO ticketDAO;
+    private static TicketDAO ticketDAO = new TicketDAO();
 
     public FareCalculatorService(TicketDAO ticketDAO) {
         this.ticketDAO = ticketDAO;
@@ -23,7 +23,6 @@ public class FareCalculatorService {
         double duration = helper.getHours(durationInMinutes);
         String vehiculeRegNumber = ticket.getVehicleRegNumber();
         int numberOfVisits = ticketDAO.countVehicleRegNumber(vehiculeRegNumber);
-        System.out.println(numberOfVisits);
 
         if (numberOfVisits > 1) {
             ticket.setPrice(this.getPriceWithDiscount(ticket.getParkingSpot().getParkingType(), duration));
