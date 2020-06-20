@@ -17,7 +17,7 @@ import java.util.Date;
 public class FareCalculatorServiceTest {
 
     private static FareCalculatorService fareCalculatorService;
-    private static TicketDAO ticketDAO;
+    private static TicketDAO ticketDAO = new TicketDAO();
     private Ticket ticket;
     private Date inTime;
 

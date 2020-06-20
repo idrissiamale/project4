@@ -117,7 +117,7 @@ public class ParkingDataBaseIT {
         ticket.setPrice(0);
         ticket.setInTime(inTime);
         ticket.setOutTime(null);
-        
+
         parkingService.processIncomingVehicle();
 
         assertNotNull(ticketDAO.getTicket("ABCDEF"));

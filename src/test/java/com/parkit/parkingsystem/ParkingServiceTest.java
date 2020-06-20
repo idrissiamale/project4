@@ -5,6 +5,7 @@ import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
+import com.parkit.parkingsystem.service.FareCalculatorService;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +23,7 @@ import java.util.Date;
 @ExtendWith(MockitoExtension.class)
 public class ParkingServiceTest {
     private static ParkingService parkingService;
+    private static FareCalculatorService fareCalculatorService;
 
     @Mock
     private static InputReaderUtil inputReaderUtil;
@@ -33,6 +35,7 @@ public class ParkingServiceTest {
     @BeforeEach
     private void setUpPerTest() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        fareCalculatorService = new FareCalculatorService(ticketDAO);
     }
 
     @Test
