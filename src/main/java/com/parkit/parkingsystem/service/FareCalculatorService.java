@@ -38,10 +38,10 @@ public class FareCalculatorService {
     private double getPriceWithDiscount(ParkingType parkingType, double duration) {
         switch (parkingType) {
             case CAR: {
-                return helper.arrondiDecimales(duration * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT);
+                return helper.getTheRoundToThreeDecimalPlaces(duration * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT);
             }
             case BIKE: {
-                return helper.arrondiDecimales(duration * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT);
+                return helper.getTheRoundToThreeDecimalPlaces(duration * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT);
             }
             default:
                 throw new IllegalArgumentException("Unkown Parking Type");
@@ -51,10 +51,10 @@ public class FareCalculatorService {
     private double getPriceWithoutDiscount(ParkingType parkingType, double duration) {
         switch (parkingType) {
             case CAR: {
-                return helper.arrondiDecimales(duration * Fare.CAR_RATE_PER_HOUR);
+                return helper.getTheRoundToThreeDecimalPlaces(duration * Fare.CAR_RATE_PER_HOUR);
             }
             case BIKE: {
-                return helper.arrondiDecimales(duration * Fare.BIKE_RATE_PER_HOUR);
+                return helper.getTheRoundToThreeDecimalPlaces(duration * Fare.BIKE_RATE_PER_HOUR);
             }
             default:
                 throw new IllegalArgumentException("Unkown Parking Type");

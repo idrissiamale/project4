@@ -4,6 +4,7 @@ import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
+import com.parkit.parkingsystem.helpers.HelperClass;
 import com.parkit.parkingsystem.integration.config.DataBaseTestConfig;
 import com.parkit.parkingsystem.integration.service.DataBasePrepareService;
 import com.parkit.parkingsystem.model.ParkingSpot;
@@ -34,6 +35,7 @@ public class ParkingDataBaseIT {
     private static ParkingSpotDAO parkingSpotDAO;
     private static TicketDAO ticketDAO;
     private static DataBasePrepareService dataBasePrepareService;
+    private static HelperClass helper;
     private Ticket ticket;
     private Date inTime;
     private Date outTime;
@@ -49,6 +51,7 @@ public class ParkingDataBaseIT {
         ticketDAO = new TicketDAO();
         ticketDAO.dataBaseConfig = dataBaseTestConfig;
         dataBasePrepareService = new DataBasePrepareService();
+        helper = new HelperClass();
     }
 
     @BeforeEach
@@ -82,7 +85,7 @@ public class ParkingDataBaseIT {
         assertNotNull(ticket.getParkingSpot());
         assertNotNull(ticket.getVehicleRegNumber());
         assertNotNull(ticket.getPrice());
-        assertNotNull(ticket.getPrice());
+        assertNotNull(ticket.getInTime());
     }
 
     @Test
@@ -121,6 +124,10 @@ public class ParkingDataBaseIT {
         parkingService.processIncomingVehicle();
 
         assertNotNull(ticketDAO.getTicket("ABCDEF"));
+        assertNotNull(ticket.getParkingSpot());
+        assertNotNull(ticket.getVehicleRegNumber());
+        assertNotNull(ticket.getPrice());
+        assertNotNull(ticket.getInTime());
     }
 
     @Test
@@ -135,6 +142,7 @@ public class ParkingDataBaseIT {
 
         assertTrue(ticketDAO.updateTicket(ticket));
         assertEquals(outTime, ticket.getOutTime());
+        assertEquals(Fare.UNDER_THIRTY_MINUTES, ticket.getPrice());
     }
 
     @Test
@@ -151,6 +159,10 @@ public class ParkingDataBaseIT {
         ticketDAO.saveTicket(ticket);
 
         assertNotNull(ticketDAO.getTicket("ABCDEF"));
+        assertNotNull(ticket.getParkingSpot());
+        assertNotNull(ticket.getVehicleRegNumber());
+        assertNotNull(ticket.getPrice());
+        assertNotNull(ticket.getInTime());
     }
 
     @Test
@@ -166,6 +178,7 @@ public class ParkingDataBaseIT {
 
         assertTrue(ticketDAO.updateTicket(ticket));
         assertEquals(outTime, ticket.getOutTime());
+        assertEquals(Fare.CAR_RATE_PER_HOUR, ticket.getPrice());
     }
     //TODO: check that the fare generated and out time are populated correctly in the database
 }

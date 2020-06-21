@@ -13,10 +13,10 @@ public class HelperClass {
         return hours;
     }
 
-    public static double arrondiDecimales(double a) {
-        BigDecimal bd = new BigDecimal(a);
+    public static double getTheRoundToThreeDecimalPlaces(double n) {
+        BigDecimal bd = new BigDecimal(n);
         bd = bd.setScale(3, BigDecimal.ROUND_HALF_DOWN);
-        a = bd.doubleValue();
-        return a;
+        n = bd.doubleValue();
+        return n;
     }
 }

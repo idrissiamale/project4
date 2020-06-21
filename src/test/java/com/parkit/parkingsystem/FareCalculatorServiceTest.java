@@ -46,7 +46,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals(helper.arrondiDecimales(Fare.CAR_RATE_PER_HOUR), ticket.getPrice());
+        assertEquals(Fare.CAR_RATE_PER_HOUR, ticket.getPrice());
     }
 
     @Test
@@ -61,7 +61,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals(helper.arrondiDecimales(Fare.BIKE_RATE_PER_HOUR), ticket.getPrice());
+        assertEquals(Fare.BIKE_RATE_PER_HOUR, ticket.getPrice());
     }
 
     @Test
@@ -76,7 +76,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals((helper.arrondiDecimales(0.75 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
+        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.75 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
     }
 
     @Test
@@ -91,7 +91,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals((helper.arrondiDecimales(0.75 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice());
+        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.75 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice());
     }
 
     @Test
@@ -106,7 +106,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals((helper.arrondiDecimales(24 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
+        assertEquals((helper.getTheRoundToThreeDecimalPlaces(24 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
     }
 
     @Test
@@ -122,7 +122,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals((helper.arrondiDecimales(24 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice());
+        assertEquals((helper.getTheRoundToThreeDecimalPlaces(24 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice());
     }
 
     @Test
@@ -137,7 +137,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals((helper.arrondiDecimales(0.5 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
+        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.5 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
     }
 
     @Test
@@ -152,7 +152,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals((helper.arrondiDecimales(0.5 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice());
+        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.5 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice());
     }
 
     @Test
@@ -167,7 +167,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals(helper.arrondiDecimales(Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT), ticket.getPrice());
+        assertEquals(helper.getTheRoundToThreeDecimalPlaces(Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT), ticket.getPrice());
     }
 
     @Test
@@ -182,7 +182,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals(helper.arrondiDecimales(Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT), ticket.getPrice());
+        assertEquals(helper.getTheRoundToThreeDecimalPlaces(Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT), ticket.getPrice());
     }
 
     @Test
@@ -197,7 +197,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals((helper.arrondiDecimales(0.75 * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
+        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.75 * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
     }
 
     @Test
@@ -213,7 +213,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals((helper.arrondiDecimales(0.75 * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
+        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.75 * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
     }
 
     @Test
@@ -228,7 +228,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals((helper.arrondiDecimales(24 * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
+        assertEquals((helper.getTheRoundToThreeDecimalPlaces(24 * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
     }
 
     @Test
@@ -243,7 +243,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals((helper.arrondiDecimales(24 * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
+        assertEquals((helper.getTheRoundToThreeDecimalPlaces(24 * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
     }
 
     @Test
@@ -258,7 +258,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals((helper.arrondiDecimales(0.5 * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
+        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.5 * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
     }
 
     @Test
@@ -273,7 +273,7 @@ public class FareCalculatorServiceTest {
 
         fareCalculatorService.calculateFare(ticket);
 
-        assertEquals((helper.arrondiDecimales(0.5 * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
+        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.5 * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
     }
 
     @Test
