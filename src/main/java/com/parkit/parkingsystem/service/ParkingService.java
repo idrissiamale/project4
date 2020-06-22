@@ -11,7 +11,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Date;
 
-
+/**
+ * Parking system. Process with incoming and exiting vehicles.
+ */
 public class ParkingService {
 
     private static final Logger logger = LogManager.getLogger("ParkingService");
