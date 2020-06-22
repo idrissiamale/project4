@@ -100,7 +100,12 @@ public class ParkingService {
         return parkingSpot;
     }
 
-
+    /**
+     * Get the vehicule type (car or bike) selected by the user.
+     * @see InputReaderUtil
+     * @return the user selection.
+     * @throws IllegalArgumentException if the input entered is invalid and does not match any vehicule type of the menu.
+     */
     private ParkingType getVehichleType() {
         System.out.println("Please select vehicle type from menu");
         System.out.println("1 CAR");
