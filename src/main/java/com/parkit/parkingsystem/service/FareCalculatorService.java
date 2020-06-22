@@ -7,7 +7,7 @@ import com.parkit.parkingsystem.helpers.HelperClass;
 import com.parkit.parkingsystem.model.Ticket;
 
 /**
- * The system calculates fare based on the parking time and the vehicule type (car/bike).
+ * The system calculates fare based on the parking time and the vehicle type (car/bike).
  */
 public class FareCalculatorService {
     private static HelperClass helper = new HelperClass();
@@ -20,8 +20,9 @@ public class FareCalculatorService {
     /**
      * Calculation of the parking fees.
      *
-     * @param ticket, the ticket with the parking informations of the user.
+     * @param ticket, the ticket with the parking information of the user.
      * @throws IllegalArgumentException, if the out time provided is incorrect.
+     * @see TicketDAO
      */
     public void calculateFare(Ticket ticket) {
         if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {
@@ -47,9 +48,9 @@ public class FareCalculatorService {
     /**
      * Calculation of the parking fees with discount.
      *
-     * @param parkingType, it refers to the vehicule type (car/bike).
+     * @param parkingType, it refers to the vehicle type (car/bike).
      * @param duration,    parking time. It's the elapsed time, given in hours, between parking entry and exit.
-     * @return the price calculated based on the parking time, the vehicule type and the 5% discount.
+     * @return the price calculated based on the parking time, the vehicle type and the 5% discount.
      */
     private double getPriceWithDiscount(ParkingType parkingType, double duration) {
         switch (parkingType) {
@@ -67,9 +68,9 @@ public class FareCalculatorService {
     /**
      * Calculation of the parking fees without discount.
      *
-     * @param parkingType, it refers to the vehicule type (car/bike).
+     * @param parkingType, it refers to the vehicle type (car/bike).
      * @param duration,    parking time. It's the elapsed time, given in hours, between parking entry and exit.
-     * @return the price calculated based on the parking time and the vehicule type.
+     * @return the price calculated based on the parking time and the vehicle type.
      */
     private double getPriceWithoutDiscount(ParkingType parkingType, double duration) {
         switch (parkingType) {

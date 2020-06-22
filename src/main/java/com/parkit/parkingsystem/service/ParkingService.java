@@ -57,7 +57,7 @@ public class ParkingService {
     }
 
     /**
-     * The system gets the vehicule registration number entered by the user.
+     * The system gets the vehicle registration number entered by the user.
      *
      * @return the user input.
      * @see InputReaderUtil
@@ -68,10 +68,10 @@ public class ParkingService {
     }
 
     /**
-     * It counts the vehicule registration number entered by the user to determine whether he's a new or a recurring user.
+     * It counts the vehicle registration number entered by the user to determine whether he's a new or a recurring user.
      *
-     * @param vehicleRegNumber, it refers to the vehicule registration number entered by the user.
-     * @return the number of visits. If it's greater than zero, it means that the vehicule registration number
+     * @param vehicleRegNumber, it refers to the vehicle registration number entered by the user.
+     * @return the number of visits. If it's greater than zero, it means that the vehicle registration number
      * exists in our database and that the user is a recurring user.
      * @see TicketDAO
      */
@@ -84,7 +84,7 @@ public class ParkingService {
     }
 
     /**
-     * The system searches for an available parking spot based on the vehicule type selected by the user
+     * The system searches for an available parking spot based on the vehicle type selected by the user
      * and displays the parking number if it's available.
      *
      * @return the available parking spot.
@@ -111,10 +111,10 @@ public class ParkingService {
     }
 
     /**
-     * The system gets the vehicule type (car or bike) selected by the user.
+     * The system gets the vehicle type (car or bike) selected by the user.
      *
      * @return the user selection.
-     * @throws IllegalArgumentException if the input entered is invalid and does not match any vehicule type of the menu.
+     * @throws IllegalArgumentException if the input entered is invalid and does not match any vehicle type of the menu.
      * @see InputReaderUtil
      */
     private ParkingType getVehichleType() {
