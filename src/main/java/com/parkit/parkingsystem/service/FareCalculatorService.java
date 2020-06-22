@@ -19,7 +19,6 @@ public class FareCalculatorService {
 
     /**
      * Calculation of the parking fees.
-     *
      * @param ticket, the ticket with the parking informations of the user.
      * @throws IllegalArgumentException, if the out time provided is incorrect.
      */

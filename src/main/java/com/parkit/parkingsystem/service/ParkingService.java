@@ -56,11 +56,23 @@ public class ParkingService {
         }
     }
 
-    private String getVehichleRegNumber() throws Exception {
+    /**
+     * Get the vehicule registration number entered by the user.
+     * @see InputReaderUtil
+     * @return the user input.
+     */
+    private String getVehichleRegNumber() {
         System.out.println("Please type the vehicle registration number and press enter key");
         return inputReaderUtil.readVehicleRegistrationNumber();
     }
 
+    /**
+     * It counts the vehicule registration number entered by the user to determine whether he's a new or a recurring user.
+     * @see TicketDAO
+     * @param vehicleRegNumber, it refers to the vehicule registration number entered by the user.
+     * @return the number of visits. If it's greater than zero, it means that the vehicule registration number
+     * exists in our database and that the user is a recurring user.
+     */
     public int countTheNumberOfVisits(String vehicleRegNumber) {
         int numberOfVisits = ticketDAO.countVehicleRegNumber(vehicleRegNumber);
         if (numberOfVisits > 0) {
