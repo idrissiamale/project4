@@ -30,6 +30,12 @@ public class ParkingService {
         this.ticketDAO = ticketDAO;
     }
 
+    /**
+     * Process incoming vehicles and issuing of parking tickets.
+     *
+     * @see ParkingSpotDAO
+     * @see TicketDAO
+     */
     public void processIncomingVehicle() {
         try {
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
@@ -138,6 +144,13 @@ public class ParkingService {
         }
     }
 
+    /**
+     * Process exiting vehicles and calculation of the parking fares.
+     *
+     * @see TicketDAO
+     * @see FareCalculatorService
+     * @see ParkingSpotDAO
+     */
     public void processExitingVehicle() {
         try {
             String vehicleRegNumber = getVehichleRegNumber();
