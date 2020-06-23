@@ -49,6 +49,14 @@ public class TicketDAO {
         }
     }
 
+    /**
+     * Getting a ticket saved in database with the vehicle registration number of the user.
+     *
+     * @param vehicleRegNumber, the user's vehicle registration number.
+     * @return a ticket.
+     * @see DBConstants
+     * @see DataBaseConfig
+     */
     public Ticket getTicket(String vehicleRegNumber) {
         Connection con = null;
         Ticket ticket = null;
@@ -78,6 +86,14 @@ public class TicketDAO {
         }
     }
 
+    /**
+     * Update of the user ticket with the exit time and price.
+     *
+     * @param ticket, the user ticket updated with exit time and parking price information.
+     * @return true if the ticket is updated.
+     * @see DBConstants
+     * @see DataBaseConfig
+     */
     public boolean updateTicket(Ticket ticket) {
         Connection con = null;
         try {
@@ -96,6 +112,15 @@ public class TicketDAO {
         return false;
     }
 
+    /**
+     * Counting the vehicle registration number entered by the user to determine whether he is a new or a recurring user
+     * based on his number of visits.
+     *
+     * @param vehicleRegNumber, the user's vehicle registration number.
+     * @return count, the number of visits of a specific user. It it's greater than zero then the user is a recurring user (he is saved in our database).
+     * @see DBConstants
+     * @see DataBaseConfig
+     */
     public int countVehicleRegNumber(String vehicleRegNumber) {
         Connection con = null;
         int count = 0;
