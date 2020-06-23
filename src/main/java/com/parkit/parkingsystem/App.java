@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 public class App {
     private static final Logger logger = LogManager.getLogger("App");
     /**
-     * Initializing the parking system.
+     * Initialization of the parking system.
      * @see InteractiveShell
      */
     public static void main(String args[]) {
