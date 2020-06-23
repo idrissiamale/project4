@@ -1,5 +1,7 @@
 package com.parkit.parkingsystem.util;
 
+import com.parkit.parkingsystem.config.DataBaseConfig;
+import com.parkit.parkingsystem.constants.DBConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,6 +12,11 @@ public class InputReaderUtil {
     private static Scanner scan = new Scanner(System.in);
     private static final Logger logger = LogManager.getLogger("InputReaderUtil");
 
+    /**
+     * Reading the user input.
+     *
+     * @return the number entered by the user.
+     */
     public int readSelection() {
         try {
             int input = Integer.parseInt(scan.nextLine());
@@ -21,6 +28,12 @@ public class InputReaderUtil {
         }
     }
 
+    /**
+     * Reading the user input.
+     *
+     * @return the user's vehicle registration number.
+     * @throws IllegalArgumentException if the vehicle registration number provided is invalid.
+     */
     public String readVehicleRegistrationNumber() {
         try {
             String vehicleRegNumber = scan.nextLine();
