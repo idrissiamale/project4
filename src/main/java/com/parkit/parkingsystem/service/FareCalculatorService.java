@@ -48,7 +48,7 @@ public class FareCalculatorService {
     /**
      * Calculation of the parking fees with discount.
      *
-     * @param parkingType, it refers to the vehicle type (car/bike).
+     * @param parkingType, the parking type based on the user's vehicle (car or bike).
      * @param duration,    parking time. It's the elapsed time, given in hours, between parking entry and exit.
      * @return the price calculated based on the parking time, the vehicle type and the 5% discount.
      */
@@ -68,7 +68,7 @@ public class FareCalculatorService {
     /**
      * Calculation of the parking fees without discount.
      *
-     * @param parkingType, it refers to the vehicle type (car/bike).
+     * @param parkingType, the parking type based on the user's vehicle (car or bike).
      * @param duration,    parking time. It's the elapsed time, given in hours, between parking entry and exit.
      * @return the price calculated based on the parking time and the vehicle type.
      */
