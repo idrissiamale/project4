@@ -2,6 +2,9 @@ package com.parkit.parkingsystem.model;
 
 import com.parkit.parkingsystem.constants.ParkingType;
 
+/**
+ * ParkingSpot model class with parking number, parking type and availability as fields.
+ */
 public class ParkingSpot {
     private int number;
     private ParkingType parkingType;
@@ -13,6 +16,9 @@ public class ParkingSpot {
         this.isAvailable = isAvailable;
     }
 
+    /**
+     * Getters and setters.
+     */
     public int getId() {
         return number;
     }

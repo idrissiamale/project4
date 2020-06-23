@@ -2,6 +2,9 @@ package com.parkit.parkingsystem.model;
 
 import java.util.Date;
 
+/**
+ * Ticket model class with ID, parking Spot, vehicle registration number, price, entry time and exit time fields.
+ */
 public class Ticket {
     private int id;
     private ParkingSpot parkingSpot;
@@ -10,6 +13,9 @@ public class Ticket {
     private Date inTime;
     private Date outTime;
 
+    /**
+     * Getters and setters.
+     */
     public int getId() {
         return id;
     }
