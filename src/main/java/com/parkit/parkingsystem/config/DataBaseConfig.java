@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 
 /**
- * Database configurations and JDBC settings.
+ * A class which configures and gives access to the parking system database.
  */
 public class DataBaseConfig {
 
