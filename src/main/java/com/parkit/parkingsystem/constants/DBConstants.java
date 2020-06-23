@@ -1,5 +1,11 @@
 package com.parkit.parkingsystem.constants;
 
+/**
+ * Constants for the SQL statements.
+ *
+ * @see com.parkit.parkingsystem.dao.TicketDAO
+ * @see com.parkit.parkingsystem.dao.ParkingSpotDAO
+ */
 public class DBConstants {
 
     public static final String GET_NEXT_PARKING_SPOT = "select min(PARKING_NUMBER) from parking where AVAILABLE = true and TYPE = ?";
