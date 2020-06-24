@@ -10,8 +10,8 @@ import com.parkit.parkingsystem.model.Ticket;
  * The system calculates fare based on the parking time and the vehicle type (car/bike).
  */
 public class FareCalculatorService {
-    private static HelperClass helper = new HelperClass();
-    private static TicketDAO ticketDAO = new TicketDAO();
+    private HelperClass helper = new HelperClass();
+    private TicketDAO ticketDAO;
 
     public FareCalculatorService(TicketDAO ticketDAO) {
         this.ticketDAO = ticketDAO;

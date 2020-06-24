@@ -38,14 +38,19 @@ public class TicketDAO {
             ps.setString(2, ticket.getVehicleRegNumber());
             ps.setDouble(3, ticket.getPrice());
             ps.setTimestamp(4, new Timestamp(ticket.getInTime().getTime()));
-            ps.setTimestamp(5, (ticket.getOutTime() == null) ? null : (new Timestamp(ticket.getOutTime().getTime())));
-            return ps.execute();
+            if(ticket.getOutTime() != null) {
+                ps.setTimestamp(5, new Timestamp(ticket.getOutTime().getTime()));
+            } else {
+                ps.setTimestamp(5, null);
+            }
+            boolean ticketIsSaved = ps.execute();
+            ps.close();
+            return ticketIsSaved;
         } catch (Exception ex) {
             logger.error("Error fetching next available slot", ex);
             return false;
         } finally {
             dataBaseConfig.closeConnection(con);
-            return true;
         }
     }
 
@@ -102,14 +107,15 @@ public class TicketDAO {
             ps.setDouble(1, ticket.getPrice());
             ps.setTimestamp(2, new Timestamp(ticket.getOutTime().getTime()));
             ps.setInt(3, ticket.getId());
-            ps.execute();
-            return true;
+            boolean ticketIsSaved = ps.execute();
+            ps.close();
+            return ticketIsSaved;
         } catch (Exception ex) {
             logger.error("Error saving ticket info", ex);
+            return false;
         } finally {
             dataBaseConfig.closeConnection(con);
         }
-        return false;
     }
 
     /**
@@ -132,6 +138,7 @@ public class TicketDAO {
             if (rs.next()) {
                 count = rs.getInt(1);
             }
+            ps.close();
             return count;
         } catch (Exception ex) {
             logger.error("Error counting vehicle registration numbers", ex);
