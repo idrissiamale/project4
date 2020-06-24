@@ -38,7 +38,7 @@ public class TicketDAO {
             ps.setString(2, ticket.getVehicleRegNumber());
             ps.setDouble(3, ticket.getPrice());
             ps.setTimestamp(4, new Timestamp(ticket.getInTime().getTime()));
-            ps.setTimestamp(5, new Timestamp(ticket.getOutTime().getTime()));
+            ps.setTimestamp(5, (ticket.getOutTime() == null) ? null : (new Timestamp(ticket.getOutTime().getTime())));
             boolean ticketIsSaved = ps.execute();
             ps.close();
             return ticketIsSaved;
@@ -103,9 +103,9 @@ public class TicketDAO {
             ps.setDouble(1, ticket.getPrice());
             ps.setTimestamp(2, new Timestamp(ticket.getOutTime().getTime()));
             ps.setInt(3, ticket.getId());
-            boolean ticketIsSaved = ps.execute();
+            ps.execute();
             ps.close();
-            return ticketIsSaved;
+            return true;
         } catch (Exception ex) {
             logger.error("Error saving ticket info", ex);
             return false;
