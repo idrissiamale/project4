@@ -33,6 +33,4 @@ public class DataBasePrepareService {
             dataBaseTestConfig.closeConnection(connection);
         }
     }
-
-
 }

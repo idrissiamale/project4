@@ -6,59 +6,93 @@ import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.helpers.HelperClass;
 import com.parkit.parkingsystem.model.Ticket;
 
-<span class="fc" id="L9">public class FareCalculatorService {</span>
-<span class="fc" id="L10">    private static HelperClass helper = new HelperClass();</span>
-<span class="fc" id="L11">    public TicketDAO ticketDAO = new TicketDAO();</span>
+/**
+ * The system calculates fare based on the parking time and the vehicle type (car/bike).
+ */
+public class FareCalculatorService {
+<span class="fc" id="L13">    private static HelperClass helper = new HelperClass();</span>
+<span class="fc" id="L14">    private static TicketDAO ticketDAO = new TicketDAO();</span>
 
+<span class="fc" id="L16">    public FareCalculatorService(TicketDAO ticketDAO) {</span>
+<span class="fc" id="L17">        this.ticketDAO = ticketDAO;</span>
+<span class="fc" id="L18">    }</span>
+
+    /**
+     * Calculation of the parking fees.
+     *
+     * @param ticket, the ticket with the parking information of the user.
+     * @throws IllegalArgumentException, if the out time provided is incorrect.
+     * @see TicketDAO
+     */
     public void calculateFare(Ticket ticket) {
-<span class="pc bpc" id="L14" title="1 of 4 branches missed.">        if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {</span>
-<span class="fc" id="L15">            throw new IllegalArgumentException(&quot;Out time provided is incorrect:&quot; + ticket.getOutTime().toString());</span>
+<span class="pc bpc" id="L28" title="1 of 4 branches missed.">        if ((ticket.getOutTime() == null) || (ticket.getOutTime().before(ticket.getInTime()))) {</span>
+<span class="fc" id="L29">            throw new IllegalArgumentException(&quot;Out time provided is incorrect:&quot; + ticket.getOutTime().toString());</span>
         }
 
-<span class="fc" id="L18">        double durationInMinutes = helper.getMinutes(ticket.getOutTime().getTime(), ticket.getInTime().getTime());</span>
-<span class="fc" id="L19">        double duration = helper.getHours(durationInMinutes);</span>
-<span class="fc" id="L20">        String vehiculeRegNumber = ticket.getVehicleRegNumber();</span>
-<span class="fc" id="L21">        int numberOfVisits = ticketDAO.countVehicleRegNumber(vehiculeRegNumber);</span>
+<span class="fc" id="L32">        double durationInMinutes = helper.getMinutes(ticket.getOutTime().getTime(), ticket.getInTime().getTime());</span>
+<span class="fc" id="L33">        double duration = helper.getHours(durationInMinutes);</span>
+<span class="fc" id="L34">        String vehiculeRegNumber = ticket.getVehicleRegNumber();</span>
+<span class="fc" id="L35">        int numberOfVisits = ticketDAO.countVehicleRegNumber(vehiculeRegNumber);</span>
 
-<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (numberOfVisits &gt; 0) {</span>
-<span class="fc" id="L24">            ticket.setPrice(this.getPriceWithDiscount(ticket.getParkingSpot().getParkingType(), duration));</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (numberOfVisits &gt; 1) {</span>
+<span class="fc" id="L38">            ticket.setPrice(this.getPriceWithDiscount(ticket.getParkingSpot().getParkingType(), duration));</span>
         } else {
-<span class="fc" id="L26">            ticket.setPrice(this.getPriceWithoutDiscount(ticket.getParkingSpot().getParkingType(), duration));</span>
+<span class="fc" id="L40">            ticket.setPrice(this.getPriceWithoutDiscount(ticket.getParkingSpot().getParkingType(), duration));</span>
         }
 
-<span class="fc bfc" id="L29" title="All 2 branches covered.">        if (duration &lt; 0.5) {</span>
-<span class="fc" id="L30">            ticket.setPrice(this.getPriceFree30MinParking(duration));</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (duration &lt; 0.5) {</span>
+<span class="fc" id="L44">            ticket.setPrice(this.getPriceFree30MinParking(duration));</span>
         }
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L46">    }</span>
 
+    /**
+     * Calculation of the parking fees with discount.
+     *
+     * @param parkingType, the parking type based on the user's vehicle (car or bike).
+     * @param duration,    parking time. It's the elapsed time, given in hours, between parking entry and exit.
+     * @return the price calculated based on the parking time, the vehicle type and the 5% discount.
+     */
     private double getPriceWithDiscount(ParkingType parkingType, double duration) {
-<span class="pc bpc" id="L35" title="1 of 3 branches missed.">        switch (parkingType) {</span>
+<span class="pc bpc" id="L56" title="1 of 3 branches missed.">        switch (parkingType) {</span>
             case CAR: {
-<span class="fc" id="L37">                return duration * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT;</span>
+<span class="fc" id="L58">                return helper.getTheRoundToThreeDecimalPlaces(duration * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT);</span>
             }
             case BIKE: {
-<span class="fc" id="L40">                return duration * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT;</span>
+<span class="fc" id="L61">                return helper.getTheRoundToThreeDecimalPlaces(duration * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT);</span>
             }
             default:
-<span class="nc" id="L43">                throw new IllegalArgumentException(&quot;Unkown Parking Type&quot;);</span>
+<span class="nc" id="L64">                throw new IllegalArgumentException(&quot;Unkown Parking Type&quot;);</span>
         }
     }
 
+    /**
+     * Calculation of the parking fees without discount.
+     *
+     * @param parkingType, the parking type based on the user's vehicle (car or bike).
+     * @param duration,    parking time. It's the elapsed time, given in hours, between parking entry and exit.
+     * @return the price calculated based on the parking time and the vehicle type.
+     */
     private double getPriceWithoutDiscount(ParkingType parkingType, double duration) {
-<span class="pc bpc" id="L48" title="1 of 3 branches missed.">        switch (parkingType) {</span>
+<span class="pc bpc" id="L76" title="1 of 3 branches missed.">        switch (parkingType) {</span>
             case CAR: {
-<span class="fc" id="L50">                return duration * Fare.CAR_RATE_PER_HOUR;</span>
+<span class="fc" id="L78">                return helper.getTheRoundToThreeDecimalPlaces(duration * Fare.CAR_RATE_PER_HOUR);</span>
             }
             case BIKE: {
-<span class="fc" id="L53">                return duration * Fare.BIKE_RATE_PER_HOUR;</span>
+<span class="fc" id="L81">                return helper.getTheRoundToThreeDecimalPlaces(duration * Fare.BIKE_RATE_PER_HOUR);</span>
             }
             default:
-<span class="nc" id="L56">                throw new IllegalArgumentException(&quot;Unkown Parking Type&quot;);</span>
+<span class="nc" id="L84">                throw new IllegalArgumentException(&quot;Unkown Parking Type&quot;);</span>
         }
     }
 
+    /**
+     * Free fees for parking under thirty minutes.
+     *
+     * @param duration, parking time. It's the elapsed time, given in hours, between parking entry and exit.
+     * @return free parking fees under thirty minutes.
+     */
     private double getPriceFree30MinParking(double duration) {
-<span class="fc" id="L61">        return duration * Fare.UNDER_THIRTY_MINUTES;</span>
+<span class="fc" id="L95">        return duration * Fare.UNDER_THIRTY_MINUTES;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

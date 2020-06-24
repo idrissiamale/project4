@@ -5,48 +5,74 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 
-<span class="fc" id="L8">public class DataBaseConfig {</span>
+/**
+ * A class which configures and gives access to the parking system database.
+ */
+<span class="fc" id="L11">public class DataBaseConfig {</span>
 
-<span class="fc" id="L10">    private static final Logger logger = LogManager.getLogger(&quot;DataBaseConfig&quot;);</span>
+<span class="fc" id="L13">    private static final Logger logger = LogManager.getLogger(&quot;DataBaseConfig&quot;);</span>
 
+    /**
+     * Establishing a connection to the database by using the given database url.
+     *
+     * @return a connection to the url.
+     * @throws ClassNotFoundException will be thrown if the JDBC driver is not available in Classpath or if the class loader is not able to find it.
+     * @throws SQLException           will be thrown if database access errors occurs or url is null.
+     */
     public Connection getConnection() throws ClassNotFoundException, SQLException {
-<span class="fc" id="L13">        logger.info(&quot;Create DB connection&quot;);</span>
-<span class="fc" id="L14">        Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</span>
-<span class="fc" id="L15">        return DriverManager.getConnection(</span>
-                &quot;jdbc:mysql://localhost:3306/prod?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&quot;,&quot;root&quot;,&quot;rootroot&quot;);
+<span class="fc" id="L23">        logger.info(&quot;Create DB connection&quot;);</span>
+<span class="fc" id="L24">        Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;);</span>
+<span class="fc" id="L25">        return DriverManager.getConnection(</span>
+                &quot;jdbc:mysql://localhost:3306/prod?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&quot;, &quot;root&quot;, &quot;rootroot&quot;);
     }
 
-    public void closeConnection(Connection con){
-<span class="pc bpc" id="L20" title="1 of 2 branches missed.">        if(con!=null){</span>
+    /**
+     * Closing the connection to the database.
+     *
+     * @param con, connection to the given database url.
+     */
+    public void closeConnection(Connection con) {
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        if (con != null) {</span>
             try {
-<span class="fc" id="L22">                con.close();</span>
-<span class="fc" id="L23">                logger.info(&quot;Closing DB connection&quot;);</span>
-<span class="nc" id="L24">            } catch (SQLException e) {</span>
-<span class="nc" id="L25">                logger.error(&quot;Error while closing connection&quot;,e);</span>
-<span class="fc" id="L26">            }</span>
+<span class="fc" id="L37">                con.close();</span>
+<span class="fc" id="L38">                logger.info(&quot;Closing DB connection&quot;);</span>
+<span class="nc" id="L39">            } catch (SQLException e) {</span>
+<span class="nc" id="L40">                logger.error(&quot;Error while closing connection&quot;, e);</span>
+<span class="fc" id="L41">            }</span>
         }
-<span class="fc" id="L28">    }</span>
+<span class="fc" id="L43">    }</span>
 
+    /**
+     * Closing the prepared statement.
+     *
+     * @param ps, a precompiled SQL statement.
+     * @see com.parkit.parkingsystem.constants.DBConstants
+     */
     public void closePreparedStatement(PreparedStatement ps) {
-<span class="nc bnc" id="L31" title="All 2 branches missed.">        if(ps!=null){</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (ps != null) {</span>
             try {
-<span class="nc" id="L33">                ps.close();</span>
-<span class="nc" id="L34">                logger.info(&quot;Closing Prepared Statement&quot;);</span>
-<span class="nc" id="L35">            } catch (SQLException e) {</span>
-<span class="nc" id="L36">                logger.error(&quot;Error while closing prepared statement&quot;,e);</span>
-<span class="nc" id="L37">            }</span>
+<span class="nc" id="L54">                ps.close();</span>
+<span class="nc" id="L55">                logger.info(&quot;Closing Prepared Statement&quot;);</span>
+<span class="nc" id="L56">            } catch (SQLException e) {</span>
+<span class="nc" id="L57">                logger.error(&quot;Error while closing prepared statement&quot;, e);</span>
+<span class="nc" id="L58">            }</span>
         }
-<span class="nc" id="L39">    }</span>
+<span class="nc" id="L60">    }</span>
 
+    /**
+     * Closing the database result sets.
+     *
+     * @param rs, a result set.
+     */
     public void closeResultSet(ResultSet rs) {
-<span class="nc bnc" id="L42" title="All 2 branches missed.">        if(rs!=null){</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (rs != null) {</span>
             try {
-<span class="nc" id="L44">                rs.close();</span>
-<span class="nc" id="L45">                logger.info(&quot;Closing Result Set&quot;);</span>
-<span class="nc" id="L46">            } catch (SQLException e) {</span>
-<span class="nc" id="L47">                logger.error(&quot;Error while closing result set&quot;,e);</span>
-<span class="nc" id="L48">            }</span>
+<span class="nc" id="L70">                rs.close();</span>
+<span class="nc" id="L71">                logger.info(&quot;Closing Result Set&quot;);</span>
+<span class="nc" id="L72">            } catch (SQLException e) {</span>
+<span class="nc" id="L73">                logger.error(&quot;Error while closing result set&quot;, e);</span>
+<span class="nc" id="L74">            }</span>
         }
-<span class="nc" id="L50">    }</span>
+<span class="nc" id="L76">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
