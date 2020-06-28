@@ -33,7 +33,7 @@ public class DataBaseTestConfig extends DataBaseConfig {
         properties.load(in);
         in.close();
         String driver = properties.getProperty("jdbc.driver");
-        String url = properties.getProperty("jdbc.url");
+        String url = properties.getProperty("jdbc.test.url");
         String username = properties.getProperty("jdbc.username");
         String password = properties.getProperty("jdbc.password");
         logger.info("Create DB connection");
