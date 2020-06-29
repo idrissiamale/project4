@@ -33,6 +33,10 @@ public class ParkingServiceTest {
     @BeforeEach
     private void setUpPerTest() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+        Date inTime = new Date();
+        Ticket ticket = new Ticket();
+        ticket.setVehicleRegNumber("ABCDEF");
+        ticket.setInTime(inTime);
     }
 
     @Test
@@ -125,13 +129,10 @@ public class ParkingServiceTest {
         assertNull(nextParkingNumberIfAvailable);
     }
 
+    //Testing that the mo
     @Test
-    public void verifyThatInputReaderUtilReadSelectionInProcessIncomingVehicleMethodIsCalled() {
+    public void verifyThatInputReaderUtilReadSelectionIsInvoked() {
         try {
-            Date inTime = new Date();
-            Ticket ticket = new Ticket();
-            ticket.setVehicleRegNumber("ABCDEF");
-            ticket.setInTime(inTime);
             when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
@@ -147,12 +148,8 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testThatParkingSpotDAOGetNextAvailableSLotInProcessIncomingVehicleMethodIsCalled() {
+    public void verifyThatParkingSpotDAOGetNextAvailableSLotIsInvoked() {
         try {
-            Date inTime = new Date();
-            Ticket ticket = new Ticket();
-            ticket.setVehicleRegNumber("ABCDEF");
-            ticket.setInTime(inTime);
             when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
@@ -168,7 +165,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testWhenTheParkingIsFullThatParkingSpotDAOGetNextAvailableSLotInProcessIncomingMethodIsCalled() {
+    public void verifyThatParkingSpotDAOGetNextAvailableSLotIsInvokedWhenTheParkingIsFull() {
         try {
             when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(0);
@@ -181,12 +178,8 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testThatInputReaderUtilReadVehicleRegistrationNumberInProcessIncomingVehicleMethodIsCalled() {
+    public void verifyThatInputReaderUtilReadVehicleRegistrationNumberIsInvoked() {
         try {
-            Date inTime = new Date();
-            Ticket ticket = new Ticket();
-            ticket.setVehicleRegNumber("ABCDEF");
-            ticket.setInTime(inTime);
             when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
@@ -202,12 +195,8 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testWhenItSARecurringUserThatTicketDAOCountVehicleRegNumberInProcessIncomingVehicleMethodIsCalled() {
+    public void verifyThatTicketDAOCountVehicleRegNumberIsInvokedWhenItSARecurringUser() {
         try {
-            Date inTime = new Date();
-            Ticket ticket = new Ticket();
-            ticket.setVehicleRegNumber("ABCDEF");
-            ticket.setInTime(inTime);
             when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
@@ -223,12 +212,8 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testWhenItSANewUserThatTicketDAOCountVehiculeRegNumberInProcessIncomingVehicleMethodIsCalled() {
+    public void verifyThatTicketDAOCountVehicleRegNumberIsInvokedWhenItSANewUser() {
         try {
-            Date inTime = new Date();
-            Ticket ticket = new Ticket();
-            ticket.setVehicleRegNumber("ABCDEF");
-            ticket.setInTime(inTime);
             when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
@@ -244,12 +229,8 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testThatParkingSpotDAOUpdateParkingInProcessIncomingVehicleMethodIsCalled() {
+    public void verifyThatParkingSpotDAOUpdateParkingIsInvoked() {
         try {
-            Date inTime = new Date();
-            Ticket ticket = new Ticket();
-            ticket.setVehicleRegNumber("ABCDEF");
-            ticket.setInTime(inTime);
             when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
@@ -265,12 +246,8 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testThatTicketDAOSaveTicketInProcessIncomingVehicleMethodIsCalled() {
+    public void verifyThatTicketDAOSaveTicketIsInvoked() {
         try {
-            Date inTime = new Date();
-            Ticket ticket = new Ticket();
-            ticket.setVehicleRegNumber("ABCDEF");
-            ticket.setInTime(inTime);
             when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
@@ -286,7 +263,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testThatInputReaderUtilReadVehicleRegistrationNumberInProcessExitingVehicleMethodIsCalled() {
+    public void verifyThatInputReaderUtilReadVehicleRegistrationNumberInProcessExitingVehicleMethodIsInvoked() {
         try {
             ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
             Ticket ticket = new Ticket();
@@ -306,7 +283,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testThatTicketDAOGetTicketInProcessExitingVehicleMethodIsCalled() {
+    public void verifyThatTicketDAOGetTicketIsInvoked() {
         try {
             ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
             Ticket ticket = new Ticket();
@@ -326,7 +303,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testThatTicketDAOUpdateTicketInProcessExitingVehicleMethodIsCalled() {
+    public void verifyThatTicketDAOUpdateTicketInProcessExitingVehicleMethodIsInvoked() {
         try {
             ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
             Ticket ticket = new Ticket();
@@ -365,7 +342,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testThatParkingSpotDAOUpdateParkingInProcessExitingVehicleMethodIsCalled() {
+    public void verifyThatParkingSpotDAOUpdateParkingInProcessExitingVehicleMethodIsInvoked() {
         try {
             ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
             Ticket ticket = new Ticket();
