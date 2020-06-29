@@ -5,7 +5,6 @@ import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.model.ParkingSpot;
 import com.parkit.parkingsystem.model.Ticket;
-import com.parkit.parkingsystem.service.FareCalculatorService;
 import com.parkit.parkingsystem.service.ParkingService;
 import com.parkit.parkingsystem.util.InputReaderUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,9 +36,9 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void countVehicleRegNumberForARecurringUserShouldReturnAnIntegerGreaterThanZero() {
+    public void countVehicleRegNumberShouldReturnAnIntegerGreaterThanZeroWhenItSARecurringUser() {
         try {
-            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to set up test mock objects");
@@ -47,25 +46,25 @@ public class ParkingServiceTest {
         int count = parkingService.countTheNumberOfVisits("ABCDEF");
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals(9, count);
+        assertEquals(1, count);
     }
 
     @Test
-    public void countVehicleRegNumberForANewUserShouldReturnZero() {
+    public void countVehicleRegNumberShouldReturnZeroWhenItSANewUser() {
         try {
-            when(ticketDAO.countVehicleRegNumber("FGHIJK")).thenReturn(0);
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(0);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to set up test mock objects");
         }
-        int count = parkingService.countTheNumberOfVisits("FGHIJK");
+        int count = parkingService.countTheNumberOfVisits("ABCDEF");
 
-        verify(ticketDAO).countVehicleRegNumber("FGHIJK");
+        verify(ticketDAO).countVehicleRegNumber("ABCDEF");
         assertEquals(0, count);
     }
 
     @Test
-    public void countVehicleRegNumberForInvalidInputShouldThrowAnException() {
+    public void countVehicleRegNumberShouldThrowAnExceptionWhenTheUserInputIsInvalid() {
         try {
             when(ticketDAO.countVehicleRegNumber(null)).thenThrow(new IllegalArgumentException());
         } catch (Exception e) {
@@ -78,10 +77,10 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testGetNextAvailableSLotForACar() {
+    public void getNextParkingNumberForACarWhenItSAvailable() {
         ParkingSpot parkingSpot;
         try {
-            parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
             when(inputReaderUtil.readSelection()).thenReturn(1);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
         } catch (Exception e) {
@@ -95,7 +94,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testGetNextAvailableSLotForABike() {
+    public void getNextParkingNumberForABikeWhenItSAvailable() {
         ParkingSpot parkingSpot;
         try {
             parkingSpot = new ParkingSpot(2, ParkingType.BIKE, false);
@@ -112,7 +111,7 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testThatGetNextAvailableSLotIsNullWhenTheParkingSLotIsFull() {
+    public void getNextAvailableSLotShouldBeNullWhenTheParkingSLotIsFull() {
         try {
             when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(0);
@@ -127,16 +126,16 @@ public class ParkingServiceTest {
     }
 
     @Test
-    public void testThatInputReaderUtilReadSelectionInProcessIncomingVehicleMethodIsCalled() {
+    public void verifyThatInputReaderUtilReadSelectionInProcessIncomingVehicleMethodIsCalled() {
         try {
             Date inTime = new Date();
             Ticket ticket = new Ticket();
             ticket.setVehicleRegNumber("ABCDEF");
             ticket.setInTime(inTime);
-            when(inputReaderUtil.readSelection()).thenReturn(1).thenReturn(2);
+            when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
             when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(false);
             when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
         } catch (Exception e) {
@@ -157,7 +156,7 @@ public class ParkingServiceTest {
             when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
             when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(false);
             when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
         } catch (Exception e) {
@@ -191,7 +190,7 @@ public class ParkingServiceTest {
             when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
             when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(false);
             when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
         } catch (Exception e) {
@@ -212,7 +211,7 @@ public class ParkingServiceTest {
             when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
             when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(false);
             when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
         } catch (Exception e) {
@@ -228,12 +227,12 @@ public class ParkingServiceTest {
         try {
             Date inTime = new Date();
             Ticket ticket = new Ticket();
-            ticket.setVehicleRegNumber("FGHIJK");
+            ticket.setVehicleRegNumber("ABCDEF");
             ticket.setInTime(inTime);
             when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
-            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("FGHIJK");
-            when(ticketDAO.countVehicleRegNumber("FGHIJK")).thenReturn(0);
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(0);
             when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(false);
             when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
         } catch (Exception e) {
@@ -254,7 +253,7 @@ public class ParkingServiceTest {
             when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
             when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(false);
             when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
         } catch (Exception e) {
@@ -275,7 +274,7 @@ public class ParkingServiceTest {
             when(inputReaderUtil.readSelection()).thenReturn(1, 2);
             when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(9);
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
             when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(false);
             when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
         } catch (Exception e) {
