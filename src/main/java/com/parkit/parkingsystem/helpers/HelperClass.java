@@ -11,7 +11,7 @@ public class HelperClass {
      *
      * @param end,   it refers to the ending time.
      * @param start, it refers to the starting time.
-     * @return duration which is the difference between the ending time and the starting time in minutes.
+     * @return duration which is the difference between the ending time and the starting time in hours.
      * @see com.parkit.parkingsystem.service.FareCalculatorService
      */
     public static double getHours(double end, double start) {
