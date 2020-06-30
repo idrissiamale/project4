@@ -7,28 +7,16 @@ import java.math.BigDecimal;
  */
 public class HelperClass {
     /**
-     * Helper method which permits to convert the elapsed time into minutes.
+     * Helper method which permits to convert the elapsed time into hours.
      *
      * @param end,   it refers to the ending time.
      * @param start, it refers to the starting time.
-     * @return durationInMinutes which is the difference between the ending time and the starting time in minutes.
+     * @return duration which is the difference between the ending time and the starting time in minutes.
      * @see com.parkit.parkingsystem.service.FareCalculatorService
      */
-    public static double getMinutes(double end, double start) {
-        double durationInMinutes = (end - start) / 60000;
-        return durationInMinutes;
-    }
-
-    /**
-     * Helper method which permits to convert the elapsed time into hours.
-     *
-     * @param minutes, it refers to the time in minutes.
-     * @return hours, it returns the time in hours.
-     * @see com.parkit.parkingsystem.service.FareCalculatorService
-     */
-    public static double getHours(double minutes) {
-        double hours = minutes / 60;
-        return hours;
+    public static double getHours(double end, double start) {
+        double duration = (end - start) / 3600000;
+        return duration;
     }
 
     /**

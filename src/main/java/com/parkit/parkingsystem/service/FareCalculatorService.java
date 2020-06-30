@@ -29,8 +29,7 @@ public class FareCalculatorService {
             throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
         }
 
-        double durationInMinutes = helper.getMinutes(ticket.getOutTime().getTime(), ticket.getInTime().getTime());
-        double duration = helper.getHours(durationInMinutes);
+        double duration = helper.getHours(ticket.getOutTime().getTime(), ticket.getInTime().getTime());
         String vehiculeRegNumber = ticket.getVehicleRegNumber();
         int numberOfVisits = ticketDAO.countVehicleRegNumber(vehiculeRegNumber);
 
