@@ -6,11 +6,13 @@ import com.parkit.parkingsystem.dao.TicketDAO;
 import com.parkit.parkingsystem.helpers.HelperClass;
 import com.parkit.parkingsystem.model.Ticket;
 
+import static com.parkit.parkingsystem.helpers.HelperClass.getHours;
+import static com.parkit.parkingsystem.helpers.HelperClass.getTheRoundToThreeDecimalPlaces;
+
 /**
  * The system calculates fare based on the parking time and the vehicle type (car/bike).
  */
 public class FareCalculatorService {
-    private HelperClass helper = new HelperClass();
     private TicketDAO ticketDAO;
 
     public FareCalculatorService(TicketDAO ticketDAO) {
@@ -29,7 +31,7 @@ public class FareCalculatorService {
             throw new IllegalArgumentException("Out time provided is incorrect:" + ticket.getOutTime().toString());
         }
 
-        double duration = helper.getHours(ticket.getOutTime().getTime(), ticket.getInTime().getTime());
+        double duration = getHours(ticket.getOutTime().getTime(), ticket.getInTime().getTime());
         String vehiculeRegNumber = ticket.getVehicleRegNumber();
         int numberOfVisits = ticketDAO.countVehicleRegNumber(vehiculeRegNumber);
 
@@ -54,10 +56,10 @@ public class FareCalculatorService {
     private double getPriceWithDiscount(ParkingType parkingType, double duration) {
         switch (parkingType) {
             case CAR: {
-                return helper.getTheRoundToThreeDecimalPlaces(duration * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT);
+                return getTheRoundToThreeDecimalPlaces(duration * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT);
             }
             case BIKE: {
-                return helper.getTheRoundToThreeDecimalPlaces(duration * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT);
+                return getTheRoundToThreeDecimalPlaces(duration * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT);
             }
             default:
                 throw new IllegalArgumentException("Unkown Parking Type");
@@ -74,10 +76,10 @@ public class FareCalculatorService {
     private double getPriceWithoutDiscount(ParkingType parkingType, double duration) {
         switch (parkingType) {
             case CAR: {
-                return helper.getTheRoundToThreeDecimalPlaces(duration * Fare.CAR_RATE_PER_HOUR);
+                return getTheRoundToThreeDecimalPlaces(duration * Fare.CAR_RATE_PER_HOUR);
             }
             case BIKE: {
-                return helper.getTheRoundToThreeDecimalPlaces(duration * Fare.BIKE_RATE_PER_HOUR);
+                return getTheRoundToThreeDecimalPlaces(duration * Fare.BIKE_RATE_PER_HOUR);
             }
             default:
                 throw new IllegalArgumentException("Unkown Parking Type");

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static com.parkit.parkingsystem.helpers.HelperClass.getTheRoundToThreeDecimalPlaces;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -27,7 +28,7 @@ public class FareCalculatorServiceTest {
     @Mock
     private static TicketDAO ticketDAO;
 
-    private HelperClass helper;
+
     private Ticket ticket;
     private Date inTime;
     private Date outTime;
@@ -38,7 +39,6 @@ public class FareCalculatorServiceTest {
         ticket = new Ticket();
         inTime = new Date();
         outTime = new Date();
-        helper = new HelperClass();
     }
 
     @Test
@@ -90,7 +90,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.75 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
+        assertEquals((getTheRoundToThreeDecimalPlaces(0.75 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
     }
 
     @Test
@@ -107,7 +107,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.75 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice());
+        assertEquals((getTheRoundToThreeDecimalPlaces(0.75 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice());
     }
 
     @Test
@@ -124,7 +124,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals((helper.getTheRoundToThreeDecimalPlaces(24 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
+        assertEquals((getTheRoundToThreeDecimalPlaces(24 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
     }
 
     @Test
@@ -141,7 +141,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals((helper.getTheRoundToThreeDecimalPlaces(24 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice());
+        assertEquals((getTheRoundToThreeDecimalPlaces(24 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice());
     }
 
     @Test
@@ -158,7 +158,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.5 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
+        assertEquals((getTheRoundToThreeDecimalPlaces(0.5 * Fare.CAR_RATE_PER_HOUR)), ticket.getPrice());
     }
 
     @Test
@@ -175,7 +175,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.5 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice());
+        assertEquals((getTheRoundToThreeDecimalPlaces(0.5 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice());
     }
 
     @Test
@@ -192,7 +192,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals(helper.getTheRoundToThreeDecimalPlaces(Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT), ticket.getPrice());
+        assertEquals(getTheRoundToThreeDecimalPlaces(Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT), ticket.getPrice());
     }
 
     @Test
@@ -209,7 +209,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals(helper.getTheRoundToThreeDecimalPlaces(Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT), ticket.getPrice());
+        assertEquals(getTheRoundToThreeDecimalPlaces(Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT), ticket.getPrice());
     }
 
     @Test
@@ -226,7 +226,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.75 * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
+        assertEquals((getTheRoundToThreeDecimalPlaces(0.75 * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
     }
 
     @Test
@@ -243,7 +243,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.75 * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
+        assertEquals((getTheRoundToThreeDecimalPlaces(0.75 * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
     }
 
     @Test
@@ -260,7 +260,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals((helper.getTheRoundToThreeDecimalPlaces(24 * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
+        assertEquals((getTheRoundToThreeDecimalPlaces(24 * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
     }
 
     @Test
@@ -277,7 +277,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals((helper.getTheRoundToThreeDecimalPlaces(24 * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
+        assertEquals((getTheRoundToThreeDecimalPlaces(24 * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
     }
 
     @Test
@@ -294,7 +294,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.5 * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
+        assertEquals((getTheRoundToThreeDecimalPlaces(0.5 * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
     }
 
     @Test
@@ -311,7 +311,7 @@ public class FareCalculatorServiceTest {
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
-        assertEquals((helper.getTheRoundToThreeDecimalPlaces(0.5 * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
+        assertEquals((getTheRoundToThreeDecimalPlaces(0.5 * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
     }
 
     @Test
