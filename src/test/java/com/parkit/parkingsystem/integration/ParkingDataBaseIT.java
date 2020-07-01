@@ -14,7 +14,7 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 
 import java.util.Date;
 
-import org.junit.jupiter.api.AfterAll;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
