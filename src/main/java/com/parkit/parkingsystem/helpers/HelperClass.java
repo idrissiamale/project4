@@ -15,8 +15,7 @@ public class HelperClass {
      * @see com.parkit.parkingsystem.service.FareCalculatorService
      */
     public static double getHours(double end, double start) {
-        double duration = (end - start) / 3600000;
-        return duration;
+        return (end - start) / 3600000;
     }
 
     /**

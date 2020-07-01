@@ -59,10 +59,6 @@ public class ParkingDataBaseIT {
         dataBasePrepareService.clearDataBaseEntries();
     }
 
-    @AfterAll
-    private static void tearDown() {
-
-    }
 
     @Test
     public void checkForACarThatATicketIsSavedInDataBase() {
