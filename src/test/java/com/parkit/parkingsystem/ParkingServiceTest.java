@@ -262,6 +262,7 @@ public class ParkingServiceTest {
             when(inputReaderUtil.readSelection()).thenReturn(2);
             when(parkingSpotDAO.getNextAvailableSlot(ParkingType.BIKE)).thenReturn(2);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            when(parkingSpotDAO.updateParking(any(ParkingSpot.class))).thenReturn(true);
             when(ticketDAO.saveTicket(any(Ticket.class))).thenReturn(true);
         } catch (Exception e) {
             e.printStackTrace();
