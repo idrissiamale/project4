@@ -101,7 +101,7 @@ public class ParkingService {
      * @see ParkingSpotDAO
      */
     public ParkingSpot getNextParkingNumberIfAvailable() {
-        int parkingNumber = 0;
+        int parkingNumber;
         ParkingSpot parkingSpot = null;
         try {
             ParkingType parkingType = getVehichleType();

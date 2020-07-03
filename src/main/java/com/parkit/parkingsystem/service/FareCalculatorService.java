@@ -31,8 +31,8 @@ public class FareCalculatorService {
         }
 
         double duration = getHours(ticket.getOutTime().getTime(), ticket.getInTime().getTime());
-        String vehiculeRegNumber = ticket.getVehicleRegNumber();
-        int numberOfVisits = ticketDAO.countVehicleRegNumber(vehiculeRegNumber);
+        String vehicleRegNumber = ticket.getVehicleRegNumber();
+        int numberOfVisits = ticketDAO.countVehicleRegNumber(vehicleRegNumber);
 
         if (numberOfVisits > 1) {
             ticket.setPrice(this.getPriceWithDiscount(ticket.getParkingSpot().getParkingType(), duration));
@@ -52,7 +52,7 @@ public class FareCalculatorService {
      * @param duration,    parking time. It's the elapsed time, given in hours, between parking entry and exit.
      * @return the price calculated based on the parking time, the vehicle type and the 5% discount.
      */
-    private double getPriceWithDiscount(ParkingType parkingType, double duration) {
+    private double getPriceWithDiscount(@org.jetbrains.annotations.NotNull ParkingType parkingType, double duration) {
         switch (parkingType) {
             case CAR: {
                 return getTheRoundToThreeDecimalPlaces(duration * Fare.CAR_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT);
