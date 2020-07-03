@@ -1,6 +1,5 @@
 package com.parkit.parkingsystem;
 
-import com.parkit.parkingsystem.constants.Fare;
 import com.parkit.parkingsystem.constants.ParkingType;
 import com.parkit.parkingsystem.dao.ParkingSpotDAO;
 import com.parkit.parkingsystem.dao.TicketDAO;
@@ -13,9 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -257,7 +254,6 @@ public class ParkingServiceTest {
         parkingService.processIncomingVehicle();
 
         verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
-        assertNotNull(ticketDAO.saveTicket(any(Ticket.class)));
     }
 
     @Test
@@ -274,7 +270,6 @@ public class ParkingServiceTest {
         parkingService.processIncomingVehicle();
 
         verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));
-        assertNotNull(ticketDAO.saveTicket(any(Ticket.class)));
     }
 
     @Test
