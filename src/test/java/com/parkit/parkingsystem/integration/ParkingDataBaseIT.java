@@ -143,7 +143,7 @@ public class ParkingDataBaseIT {
     //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
 
     @Test
-    public void ParkingACar() {
+    public void parkingACar() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         when(inputReaderUtil.readSelection()).thenReturn(1);
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
@@ -159,7 +159,7 @@ public class ParkingDataBaseIT {
 
     @Test
     public void testParkingLotExitOfACar() {
-        ParkingACar();
+        parkingACar();
         ticketDAO.getTicket("ABCDEF");
         ticket.setOutTime(outTime);
         FareCalculatorService fareCalculatorService = new FareCalculatorService(ticketDAO);
@@ -173,7 +173,7 @@ public class ParkingDataBaseIT {
     }
 
     @Test
-    public void ParkingABike() {
+    public void parkingABike() {
         parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
         when(inputReaderUtil.readSelection()).thenReturn(2);
         when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
@@ -189,7 +189,7 @@ public class ParkingDataBaseIT {
 
     @Test
     public void testParkingLotExitOfABike() {
-        ParkingABike();
+        parkingABike();
         ticketDAO.getTicket("ABCDEF");
         ticket.setOutTime(outTime);
         FareCalculatorService fareCalculatorService = new FareCalculatorService(ticketDAO);
