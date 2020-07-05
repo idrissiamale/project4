@@ -38,7 +38,7 @@ public class ParkingService {
      * @see TicketDAO
      */
     public void processIncomingVehicle() {
-        try {
+        
             ParkingSpot parkingSpot = getNextParkingNumberIfAvailable();
             if (parkingSpot != null && parkingSpot.getId() > 0) {
                 String vehicleRegNumber = getVehichleRegNumber();
@@ -60,9 +60,7 @@ public class ParkingService {
                 System.out.println("Please park your vehicle in spot number:" + parkingSpot.getId());
                 System.out.println("Recorded in-time for vehicle number:" + vehicleRegNumber + " is:" + inTime);
             }
-        } catch (Exception e) {
-            logger.error("Unable to process incoming vehicle", e);
-        }
+
     }
 
     /**

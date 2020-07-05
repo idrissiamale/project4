@@ -21,13 +21,14 @@ public class TicketDAO {
     /**
      * It saves the user ticket in our database.
      *
-     * @param ticket, the ticket with the information (ID, parking number, vehicule registration number, price, in time, out time)
+     * @param ticket, the ticket with the information (ID, parking number, vehicle registration number, price, in time, out time)
      *                of the user of the parking lot.
      * @return true if the ticket is saved in the database.
      * @see DBConstants
      * @see DataBaseConfig
      */
     public boolean saveTicket(Ticket ticket) {
+        System.out.println("toto" + ticket);
         Connection con = null;
         try {
             con = dataBaseConfig.getConnection();
