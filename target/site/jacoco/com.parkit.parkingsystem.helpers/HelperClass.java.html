@@ -5,30 +5,17 @@ import java.math.BigDecimal;
 /**
  * A class whose methods are used to convert parking time into hours and to round fees to three decimal places.
  */
-<span class="fc" id="L8">public class HelperClass {</span>
-    /**
-     * Helper method which permits to convert the elapsed time into minutes.
-     *
-     * @param end,   it refers to the ending time.
-     * @param start, it refers to the starting time.
-     * @return durationInMinutes which is the difference between the ending time and the starting time in minutes.
-     * @see com.parkit.parkingsystem.service.FareCalculatorService
-     */
-    public static double getMinutes(double end, double start) {
-<span class="fc" id="L18">        double durationInMinutes = (end - start) / 60000;</span>
-<span class="fc" id="L19">        return durationInMinutes;</span>
-    }
-
+<span class="nc" id="L8">public class HelperClass {</span>
     /**
      * Helper method which permits to convert the elapsed time into hours.
      *
-     * @param minutes, it refers to the time in minutes.
-     * @return hours, it returns the time in hours.
+     * @param end,   it refers to the ending time.
+     * @param start, it refers to the starting time.
+     * @return duration which is the difference between the ending time and the starting time in hours.
      * @see com.parkit.parkingsystem.service.FareCalculatorService
      */
-    public static double getHours(double minutes) {
-<span class="fc" id="L30">        double hours = minutes / 60;</span>
-<span class="fc" id="L31">        return hours;</span>
+    public static double getHours(double end, double start) {
+<span class="fc" id="L18">        return (end - start) / 3600000;</span>
     }
 
     /**
@@ -39,10 +26,10 @@ import java.math.BigDecimal;
      * @see com.parkit.parkingsystem.service.FareCalculatorService
      */
     public static double getTheRoundToThreeDecimalPlaces(double n) {
-<span class="fc" id="L42">        BigDecimal bd = new BigDecimal(n);</span>
-<span class="fc" id="L43">        bd = bd.setScale(3, BigDecimal.ROUND_HALF_DOWN);</span>
-<span class="fc" id="L44">        n = bd.doubleValue();</span>
-<span class="fc" id="L45">        return n;</span>
+<span class="fc" id="L29">        BigDecimal bd = new BigDecimal(n);</span>
+<span class="fc" id="L30">        bd = bd.setScale(3, BigDecimal.ROUND_HALF_DOWN);</span>
+<span class="fc" id="L31">        n = bd.doubleValue();</span>
+<span class="fc" id="L32">        return n;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

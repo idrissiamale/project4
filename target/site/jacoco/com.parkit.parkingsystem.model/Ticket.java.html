@@ -17,12 +17,12 @@ import java.util.Date;
      * Getters and setters.
      */
     public int getId() {
-<span class="fc" id="L20">        return id;</span>
+<span class="nc" id="L20">        return id;</span>
     }
 
     public void setId(int id) {
-<span class="fc" id="L24">        this.id = id;</span>
-<span class="fc" id="L25">    }</span>
+<span class="nc" id="L24">        this.id = id;</span>
+<span class="nc" id="L25">    }</span>
 
     public ParkingSpot getParkingSpot() {
 <span class="fc" id="L28">        return parkingSpot;</span>
@@ -49,19 +49,19 @@ import java.util.Date;
 <span class="fc" id="L49">    }</span>
 
     public Date getInTime() {
-<span class="fc" id="L52">        return inTime;</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        return inTime = inTime == null ? null : (Date) inTime.clone();</span>
     }
 
     public void setInTime(Date inTime) {
-<span class="fc" id="L56">        this.inTime = inTime;</span>
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        this.inTime = inTime == null ? null : (Date) inTime.clone();</span>
 <span class="fc" id="L57">    }</span>
 
     public Date getOutTime() {
-<span class="fc" id="L60">        return outTime;</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        return outTime = outTime == null ? null : (Date) outTime.clone();</span>
     }
 
     public void setOutTime(Date outTime) {
-<span class="fc" id="L64">        this.outTime = outTime;</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        this.outTime = outTime == null ? null : (Date) outTime.clone();</span>
 <span class="fc" id="L65">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
