@@ -17,12 +17,12 @@ import java.util.Date;
      * Getters and setters.
      */
     public int getId() {
-<span class="nc" id="L20">        return id;</span>
+<span class="fc" id="L20">        return id;</span>
     }
 
     public void setId(int id) {
-<span class="nc" id="L24">        this.id = id;</span>
-<span class="nc" id="L25">    }</span>
+<span class="fc" id="L24">        this.id = id;</span>
+<span class="fc" id="L25">    }</span>
 
     public ParkingSpot getParkingSpot() {
 <span class="fc" id="L28">        return parkingSpot;</span>
@@ -57,7 +57,7 @@ import java.util.Date;
 <span class="fc" id="L57">    }</span>
 
     public Date getOutTime() {
-<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        return outTime = outTime == null ? null : (Date) outTime.clone();</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        return outTime = outTime == null ? null : (Date) outTime.clone();</span>
     }
 
     public void setOutTime(Date outTime) {

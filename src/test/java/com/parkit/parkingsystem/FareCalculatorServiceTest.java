@@ -27,7 +27,6 @@ public class FareCalculatorServiceTest {
     @Mock
     private static TicketDAO ticketDAO;
 
-
     private Ticket ticket;
     private Date inTime;
     private Date outTime;
@@ -40,18 +39,21 @@ public class FareCalculatorServiceTest {
         outTime = new Date();
     }
 
+    ////Tests which check that normal parking fees (without discount) based on the parking time and the vehicle type are correctly calculated.
     @Test
     public void calculateFareCarWithoutDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
-
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
@@ -60,15 +62,18 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareBikeWithoutDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
+            ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
@@ -77,15 +82,18 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareCarWithLessThanOneHourParkingTimeWithoutDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (45 * 60 * 1000));//45 minutes parking time should give 3/4th parking fare
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (45 * 60 * 1000));
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
@@ -94,15 +102,18 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareBikeWithLessThanOneHourParkingTimeWithoutDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (45 * 60 * 1000));//45 minutes parking time should give 3/4th parking fare
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (45 * 60 * 1000));
+            ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
@@ -111,15 +122,18 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareCarWithMoreThanADayParkingTimeWithoutDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (24 * 60 * 60 * 1000));//24 hours parking time should give 24 * parking fare per hour
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
@@ -128,15 +142,18 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareBikeWithMoreThanADayParkingTimeWithoutDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (24 * 60 * 60 * 1000));//24 hours parking time should give 24 * parking fare per hour
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
+            ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
@@ -145,15 +162,19 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareCarWithThirtyMinutesParkingTimeWithoutDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (30 * 60 * 1000));
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (30 * 60 * 1000));
+            outTime = new Date();
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
@@ -162,32 +183,40 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareBikeWithThirtyMinutesParkingTimeWithoutDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (30 * 60 * 1000));
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (30 * 60 * 1000));
+            outTime = new Date();
+            ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
         assertEquals((getTheRoundToThreeDecimalPlaces(0.5 * Fare.BIKE_RATE_PER_HOUR)), ticket.getPrice());
     }
 
+    //Tests which check that parking fees with discount and based on the parking time and the vehicle type are correctly calculated.
     @Test
     public void calculateFareCarWithDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
@@ -196,15 +225,18 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareBikeWithDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
+            ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
@@ -213,15 +245,18 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareCarWithLessThanOneHourParkingTimeWithDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (45 * 60 * 1000));//45 minutes parking time should give 3/4th parking fare
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (45 * 60 * 1000));
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
@@ -230,15 +265,18 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareBikeWithLessThanOneHourParkingTimeWithDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (45 * 60 * 1000));//45 minutes parking time should give 3/4th parking fare
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (45 * 60 * 1000));
+            ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
@@ -247,15 +285,18 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareCarWithMoreThanADayParkingTimeWithDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (24 * 60 * 60 * 1000));//24 hours parking time should give 24 * parking fare per hour
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
@@ -264,15 +305,18 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareBikeWithMoreThanADayParkingTimeWithDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (24 * 60 * 60 * 1000));//24 hours parking time should give 24 * parking fare per hour
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
+            ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
@@ -281,15 +325,19 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareCarWithThirtyMinutesParkingTimeWithDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (30 * 60 * 1000));
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (30 * 60 * 1000));
+            outTime = new Date();
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
@@ -298,25 +346,29 @@ public class FareCalculatorServiceTest {
 
     @Test
     public void calculateFareBikeWithThirtyMinutesParkingTimeWithDiscount() {
-        inTime.setTime(System.currentTimeMillis() - (30 * 60 * 1000));
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
-
+        try {
+            inTime.setTime(System.currentTimeMillis() - (30 * 60 * 1000));
+            outTime = new Date();
+            ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(outTime);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(2);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         fareCalculatorService.calculateFare(ticket);
 
         verify(ticketDAO).countVehicleRegNumber("ABCDEF");
         assertEquals((getTheRoundToThreeDecimalPlaces(0.5 * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT)), ticket.getPrice());
     }
 
+    //
     @Test
     public void calculateFareCarWithLessThanThirtyMinutesParkingTime() {
         inTime.setTime(System.currentTimeMillis() - (15 * 60 * 1000));
-        outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
@@ -330,7 +382,6 @@ public class FareCalculatorServiceTest {
     @Test
     public void calculateFareBikeWithLessThanThirtyMinutesParkingTime() {
         inTime.setTime(System.currentTimeMillis() - (15 * 60 * 1000));
-        outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
@@ -341,10 +392,10 @@ public class FareCalculatorServiceTest {
         assertEquals((0.25 * Fare.UNDER_THIRTY_MINUTES), ticket.getPrice());
     }
 
+    //Tests which check that exceptions are thrown when the vehicle type is an unknown type or the out time provided is incorrect.
     @Test
-    public void calculateFareUnkownType() {
+    public void calculateFareUnknownType() {
         inTime.setTime(System.currentTimeMillis() - (60 * 60 * 1000));
-        outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, null, false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
@@ -356,7 +407,6 @@ public class FareCalculatorServiceTest {
     @Test
     public void calculateFareCarWithFutureInTime() {
         inTime.setTime(System.currentTimeMillis() + (60 * 60 * 1000));
-        outTime = new Date();
         ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
@@ -368,8 +418,7 @@ public class FareCalculatorServiceTest {
     @Test
     public void calculateFareBikeWithFutureInTime() {
         inTime.setTime(System.currentTimeMillis() + (60 * 60 * 1000));
-        outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+        ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
         ticket.setInTime(inTime);
         ticket.setOutTime(outTime);
         ticket.setParkingSpot(parkingSpot);

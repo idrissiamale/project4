@@ -26,9 +26,13 @@ public class HelperClass {
      * @see com.parkit.parkingsystem.service.FareCalculatorService
      */
     public static double getTheRoundToThreeDecimalPlaces(double n) {
-        BigDecimal bd = new BigDecimal(n);
-        bd = bd.setScale(3, BigDecimal.ROUND_HALF_DOWN);
-        n = bd.doubleValue();
+        try {
+            BigDecimal bd = new BigDecimal(n);
+            bd = bd.setScale(3, BigDecimal.ROUND_HALF_DOWN);
+            n = bd.doubleValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return n;
     }
 }

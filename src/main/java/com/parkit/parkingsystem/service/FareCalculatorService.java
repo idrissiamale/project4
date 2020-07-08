@@ -41,7 +41,7 @@ public class FareCalculatorService {
         }
 
         if (duration < 0.5) {
-            ticket.setPrice(this.getPriceFree30MinParking(duration));
+            ticket.setPrice(this.getPriceFreeThirtyMinutesParking(duration));
         }
     }
 
@@ -61,7 +61,7 @@ public class FareCalculatorService {
                 return getTheRoundToThreeDecimalPlaces(duration * Fare.BIKE_RATE_PER_HOUR * Fare.FIVE_PERCENT_DISCOUNT);
             }
             default:
-                throw new IllegalArgumentException("Unkown Parking Type");
+                throw new IllegalArgumentException("Unknown Parking Type");
         }
     }
 
@@ -81,7 +81,7 @@ public class FareCalculatorService {
                 return getTheRoundToThreeDecimalPlaces(duration * Fare.BIKE_RATE_PER_HOUR);
             }
             default:
-                throw new IllegalArgumentException("Unkown Parking Type");
+                throw new IllegalArgumentException("Unknown Parking Type");
         }
     }
 
@@ -91,7 +91,7 @@ public class FareCalculatorService {
      * @param duration, parking time. It's the elapsed time, given in hours, between parking entry and exit.
      * @return free parking fees under thirty minutes.
      */
-    private double getPriceFree30MinParking(double duration) {
+    private double getPriceFreeThirtyMinutesParking(double duration) {
         return duration * Fare.UNDER_THIRTY_MINUTES;
     }
 }
