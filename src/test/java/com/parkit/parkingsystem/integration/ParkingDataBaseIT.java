@@ -14,7 +14,6 @@ import com.parkit.parkingsystem.util.InputReaderUtil;
 
 import java.util.Date;
 
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,19 +58,23 @@ public class ParkingDataBaseIT {
         dataBasePrepareService.clearDataBaseEntries();
     }
 
-
+    //check that a ticket is actually saved in Test database and Parking table is updated with availability
     @Test
     public void checkForACarThatATicketIsSavedInDataBase() {
-        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        when(inputReaderUtil.readSelection()).thenReturn(1);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        ticket.setPrice(0);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(null);
-
+        try {
+            parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+            when(inputReaderUtil.readSelection()).thenReturn(1);
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            ticket.setPrice(0);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         parkingService.processIncomingVehicle();
 
         assertNotNull(ticketDAO.getTicket("ABCDEF"));
@@ -83,16 +86,20 @@ public class ParkingDataBaseIT {
 
     @Test
     public void checkForABikeThatATicketIsSavedInDataBase() {
-        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        when(inputReaderUtil.readSelection()).thenReturn(2);
-        ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        ticket.setPrice(0);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(null);
-
+        try {
+            parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+            when(inputReaderUtil.readSelection()).thenReturn(2);
+            ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, false);
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            ticket.setPrice(0);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         parkingService.processIncomingVehicle();
 
         assertNotNull(ticketDAO.getTicket("ABCDEF"));
@@ -104,17 +111,22 @@ public class ParkingDataBaseIT {
 
     @Test
     public void checkForACarThatParkingTableIsUpdatedWithAvailability() {
-        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        when(inputReaderUtil.readSelection()).thenReturn(1);
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        parkingSpot.setAvailable(false);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        ticket.setPrice(0);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(null);
-
+        ParkingSpot parkingSpot;
+        try {
+            parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+            when(inputReaderUtil.readSelection()).thenReturn(1);
+            parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            parkingSpot.setAvailable(false);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            ticket.setPrice(0);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         parkingService.processIncomingVehicle();
 
         assertTrue(parkingSpotDAO.updateParking(parkingSpot));
@@ -123,37 +135,45 @@ public class ParkingDataBaseIT {
 
     @Test
     public void checkForABikeThatParkingTableIsUpdatedWithAvailability() {
-        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        when(inputReaderUtil.readSelection()).thenReturn(2);
-        ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, true);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        parkingSpot.setAvailable(false);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        ticket.setPrice(0);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(null);
-
+        ParkingSpot parkingSpot;
+        try {
+            parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+            when(inputReaderUtil.readSelection()).thenReturn(2);
+            parkingSpot = new ParkingSpot(4, ParkingType.BIKE, true);
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            parkingSpot.setAvailable(false);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            ticket.setPrice(0);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         parkingService.processIncomingVehicle();
 
         assertTrue(parkingSpotDAO.updateParking(parkingSpot));
         assertFalse(ticket.getParkingSpot().isAvailable());
     }
 
-    //TODO: check that a ticket is actualy saved in DB and Parking table is updated with availability
-
+    //check that the fare generated and out time are populated correctly in the Test database
     @Test
     public void parkingACar() {
-        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        when(inputReaderUtil.readSelection()).thenReturn(1);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        ticket.setPrice(0);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(null);
-
+        try {
+            parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+            when(inputReaderUtil.readSelection()).thenReturn(1);
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            ticket.setPrice(0);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         parkingService.processIncomingVehicle();
     }
 
@@ -174,16 +194,20 @@ public class ParkingDataBaseIT {
 
     @Test
     public void parkingABike() {
-        parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        when(inputReaderUtil.readSelection()).thenReturn(2);
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
-        ticket.setParkingSpot(parkingSpot);
-        ticket.setVehicleRegNumber("ABCDEF");
-        ticket.setPrice(0);
-        ticket.setInTime(inTime);
-        ticket.setOutTime(null);
-
+        try {
+            parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
+            when(inputReaderUtil.readSelection()).thenReturn(2);
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
+            ticket.setParkingSpot(parkingSpot);
+            ticket.setVehicleRegNumber("ABCDEF");
+            ticket.setPrice(0);
+            ticket.setInTime(inTime);
+            ticket.setOutTime(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         parkingService.processIncomingVehicle();
     }
 
@@ -218,13 +242,17 @@ public class ParkingDataBaseIT {
 
     @Test
     public void testParkingLotExitOfACarAfterOneHourParkingTime() {
-        testParkingACarWithOneHourParkingTime();
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        ticketDAO.getTicket("ABCDEF");
-        ticket.setOutTime(outTime);
-        FareCalculatorService fareCalculatorService = new FareCalculatorService(ticketDAO);
-        fareCalculatorService.calculateFare(ticket);
-
+        try {
+            testParkingACarWithOneHourParkingTime();
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            ticketDAO.getTicket("ABCDEF");
+            ticket.setOutTime(outTime);
+            FareCalculatorService fareCalculatorService = new FareCalculatorService(ticketDAO);
+            fareCalculatorService.calculateFare(ticket);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         parkingService.processExitingVehicle();
 
         assertTrue(ticketDAO.updateTicket(ticket));
@@ -248,18 +276,21 @@ public class ParkingDataBaseIT {
 
     @Test
     public void testParkingLotExitOfABikeAfterOneHourParkingTime() {
-        testParkingABikeWithOneHourParkingTime();
-        when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-        ticketDAO.getTicket("ABCDEF");
-        ticket.setOutTime(outTime);
-        FareCalculatorService fareCalculatorService = new FareCalculatorService(ticketDAO);
-        fareCalculatorService.calculateFare(ticket);
-
+        try {
+            testParkingABikeWithOneHourParkingTime();
+            when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
+            ticketDAO.getTicket("ABCDEF");
+            ticket.setOutTime(outTime);
+            FareCalculatorService fareCalculatorService = new FareCalculatorService(ticketDAO);
+            fareCalculatorService.calculateFare(ticket);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to set up test mock objects");
+        }
         parkingService.processExitingVehicle();
 
         assertTrue(ticketDAO.updateTicket(ticket));
         assertEquals(outTime, ticket.getOutTime());
         assertEquals(Fare.BIKE_RATE_PER_HOUR, ticket.getPrice());
     }
-    //TODO: check that the fare generated and out time are populated correctly in the database
 }
