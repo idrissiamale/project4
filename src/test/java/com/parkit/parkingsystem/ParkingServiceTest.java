@@ -42,6 +42,8 @@ public class ParkingServiceTest {
         outTime = new Date();
     }
 
+    //Tests which check that countTheNumberOfVisits method determines correctly whether a user is
+    //a new user or a recurring user.
     @Test
     public void countVehicleRegNumberShouldReturnAnIntegerGreaterThanZeroWhenItSARecurringUser() {
         try {
@@ -83,6 +85,8 @@ public class ParkingServiceTest {
         verify(ticketDAO).countVehicleRegNumber(null);
     }
 
+    //Testing that getNextParkingNumberIfAvailable method gives a parking number to the user
+    // when the parking spot is available.
     @Test
     public void getNextParkingNumberForACarWhenItSAvailable() {
         try {
@@ -128,7 +132,7 @@ public class ParkingServiceTest {
         assertNull(nextParkingNumberIfAvailable);
     }
 
-    //Testing that the mo
+    //Testing that the mocked methods in processIncomingVehicle method are really called.
     @Test
     public void verifyThatInputReaderUtilReadSelectionIsInvoked() {
         try {
@@ -140,6 +144,7 @@ public class ParkingServiceTest {
             throw new RuntimeException("Failed to set up test mock objects");
         }
         parkingService.processIncomingVehicle();
+
         verify(inputReaderUtil, Mockito.times(1)).readSelection();
     }
 
@@ -154,6 +159,7 @@ public class ParkingServiceTest {
             throw new RuntimeException("Failed to set up test mock objects");
         }
         parkingService.processIncomingVehicle();
+
         verify(parkingSpotDAO, Mockito.times(1)).getNextAvailableSlot(any(ParkingType.class));
     }
 
@@ -167,6 +173,7 @@ public class ParkingServiceTest {
             throw new RuntimeException("Failed to set up test mock objects");
         }
         parkingService.processIncomingVehicle();
+
         verify(parkingSpotDAO, Mockito.times(1)).getNextAvailableSlot(any(ParkingType.class));
     }
 
@@ -181,6 +188,7 @@ public class ParkingServiceTest {
             throw new RuntimeException("Failed to set up test mock objects");
         }
         parkingService.processIncomingVehicle();
+
         verify(inputReaderUtil, Mockito.times(1)).readVehicleRegistrationNumber();
     }
 
@@ -196,9 +204,11 @@ public class ParkingServiceTest {
             throw new RuntimeException("Failed to set up test mock objects");
         }
         parkingService.processIncomingVehicle();
+
         verify(ticketDAO, Mockito.times(1)).countVehicleRegNumber("ABCDEF");
     }
 
+    //Tests which check that the ParkingSpotDAO and ticketDAO methods are correctly implemented in processIncomingVehicle.
     @Test
     public void testThatParkingSpotDAOIsUpdatedAfterTheEntranceOfACarInTheParking() {
         ParkingSpot parkingSpot;
@@ -206,7 +216,7 @@ public class ParkingServiceTest {
             when(inputReaderUtil.readSelection()).thenReturn(1);
             when(parkingSpotDAO.getNextAvailableSlot(ParkingType.CAR)).thenReturn(1);
             when(inputReaderUtil.readVehicleRegistrationNumber()).thenReturn("ABCDEF");
-            parkingSpot = new ParkingSpot(1, ParkingType.BIKE, false);
+            parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
             when(ticketDAO.countVehicleRegNumber("ABCDEF")).thenReturn(0);
             when(parkingSpotDAO.updateParking(parkingSpot)).thenReturn(true);
         } catch (Exception e) {
@@ -287,6 +297,7 @@ public class ParkingServiceTest {
         assertTrue(ticketDAO.saveTicket(ticket));
     }
 
+    //Testing that the InputReaderUtil method in processExitingVehicle method is really called.
     @Test
     public void verifyThatInputReaderUtilReadVehicleRegistrationNumberInProcessExitingVehicleMethodIsInvoked() {
         try {
@@ -306,8 +317,9 @@ public class ParkingServiceTest {
         verify(inputReaderUtil, Mockito.times(1)).readVehicleRegistrationNumber();
     }
 
+    //Tests which check that the DAO methods are correctly implemented in processExitingVehicle.
     @Test
-    public void testThatTicketDAOGetTicketIsNotNull() {
+    public void testThatTicketDAOGetTicketIsNotNullAndThatTheUserTicketWasCorrectlySavedInDatabase() {
         try {
             ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR, true);
             ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
@@ -350,7 +362,7 @@ public class ParkingServiceTest {
     @Test
     public void testThatTheTicketOfAUserWithBikeIsUpdated() {
         try {
-            ParkingSpot parkingSpot = new ParkingSpot(2, ParkingType.BIKE, true);
+            ParkingSpot parkingSpot = new ParkingSpot(4, ParkingType.BIKE, true);
             ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
             ticket.setParkingSpot(parkingSpot);
             ticket.setVehicleRegNumber("ABCDEF");
@@ -394,7 +406,7 @@ public class ParkingServiceTest {
     public void testThatParkingSpotDAOIsUpdatedWithParkingSpotAsAvailableAfterTheExitOfABike() {
         ParkingSpot parkingSpot;
         try {
-            parkingSpot = new ParkingSpot(2, ParkingType.BIKE, true);
+            parkingSpot = new ParkingSpot(4, ParkingType.BIKE, true);
             ticket.setInTime(new Date(System.currentTimeMillis() - (60 * 60 * 1000)));
             ticket.setParkingSpot(parkingSpot);
             ticket.setVehicleRegNumber("ABCDEF");
